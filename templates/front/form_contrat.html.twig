@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire
+{% endblock %}
+
+{% block body %}
+<div>
+    <a class="lien-retour" href="{{ path("display_personne", {'id': user.id}) }}">Retour</a>
+</div>
+
+<div class="form-modify">
+    {{ form_start(form_contrat) }}
+
+    {% if id_contrat != -1 %}
+        <h1>Modification du contrat</h1>
+    {% else %}
+        <h1>Ajout d'un contrat</h1>
+    {% endif %}
+
+    <h2>{{ user.firstname }}
+        {{ user.lastname }}</h2>
+    <div class="input-text">
+        {{ form_row(form_contrat.personne) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_contrat.subject, {'label': 'Sujet'}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_contrat.funding, {'label': 'Financement'}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_contrat.director, {'label': 'Directeur'}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_contrat.administrator, {'label': 'Responsable'}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_contrat.homeorganization, {'label': 'Organisme d\'attache'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_contrat.salary, {'label': 'Salaire'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_contrat.securite_social, {'label': 'Sécurité Sociale'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_contrat.type, {'label': 'Type'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_contrat.startdate, {'label': 'Date de début'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_contrat.enddate, {'label': 'Date de fin'}) }}
+        </div>
+        <div>
+            {% if id_contrat != -1 %}
+                <input type="submit" name="save" value="Sauvegarder"/>
+            {% else %}
+                <input type="submit" name="save" value="Ajouter"/>
+            {% endif %}
+
+        </div>
+        {{ form_end(form_contrat) }}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#form_type').parent().css({'display': 'flex', 'flex-direction': 'column'});
+
+            if($('#form_type').val() == 1){
+                $('#form_enddate').parent().parent().hide();
+            }
+
+            $('#form_type').on('change', function(){
+                if($(this).val() == 1){
+                    $('#form_enddate').parent().parent().hide();
+                }else{
+                    $('#form_enddate').parent().parent().show();
+                }
+            });
+
+            $('input[type="submit"]').on('click', function(e){
+                if($('#form_type').val() == 1){
+                    $('#form_enddate>select').each(function(){
+                        $(this).val(null);
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

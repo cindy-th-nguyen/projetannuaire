@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Ajout d'activité pour {{ user.firstname }}&nbsp;{{ user.lastname }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a class="lien-retour" href="{{ path("display_personne_activities", {'id': user.id}) }}">Retour</a>
+    </div>
+    <div class="form-modify">
+        <h1> Ajout d'activité pour {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
+        {{ form_start(form_personne_activity) }}
+        <div class="select-activity">
+            {{ form_row(form_personne_activity.activite, {'label': 'Liste des activités'}) }}
+        </div>
+        <div>
+            <input type="submit" name="save" value="Ajouter"/>
+        </div>
+        {{ form_end(form_personne_activity) }}
+    </div>
+{% endblock %}

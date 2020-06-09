@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Activités de {{ user.firstname }}&nbsp;{{ user.lastname }}
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <a class="lien-retour" href="{{ path("display_personne", {'id': user.id}) }}">Retour</a>
+    </div>
+    <div class="form-modify">
+        <h1> Liste des activités de {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
+
+        <a href="{{ path('form_personne_activity', { 'id': user.id}) }}">
+            <button class="btn-add-activite" title="Modifier">Ajouter</button>
+        </a>
+
+        <table class="table-user">
+
+            {% for label in workon %}
+                <tr>
+                    <td>
+                         {{ label.activite.label }}
+
+                    </td>
+                    <td>
+                        <a href="{{ path('delete_personne_activity', { 'id': user.id, 'id_activite': label.id }) }}">
+                            <button class="button-delete" title="Supprimer" onclick="return confirm('Etes-vous sûr ?');">
+                                <img src="{{ asset('img/delete-100.png') }}" alt="Supprimer">
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+{% endblock %}

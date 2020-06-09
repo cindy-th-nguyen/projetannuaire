@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire
+{% endblock %}
+
+{% block body %}
+
+<div>
+    <a class="lien-retour" href="{{ path("annuaire") }}">Retour</a>
+</div>
+
+<div class="form-modify">
+    {{ form_start(form_personne,  {'attr': {'class': 'classTest'}}) }}
+
+    {% if id != -1 %}
+        <h1>Modification</h1>
+    {% else %}
+        <h1>Ajout d'une personne</h1>
+    {% endif %}
+
+        <div class="input-text">
+            {{ form_row(form_personne.firstname, {'label': 'Prénom'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.lastname, {'label': 'Nom de famille'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.civilite, {'label': 'Civilité', 'attr' : { 'class': 'select-role'}}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.birthdate, {'label': 'Date de naissance'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.placebirth, {'label': 'Lieu de naissance'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.mail, {'label': 'Email'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.mail_geeps, {'label': 'E-Mail GeePs'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.homephone, {'label': 'Tél. fixe'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.mobilephone, {'label': 'Tél. mobile'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.office, {'label': 'Bureau'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.building, {'label': 'Bâtiment'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.tutelle, {'label': 'Tutelle'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.ingeeps, {'label': 'Est du laboratoire'}) }}
+        </div>
+        <div class="input-text ingeeps">
+            {{ form_row(form_personne.arrivaldate, {'label': 'Date d\'arrivée'}) }}
+        </div>
+        <div class="input-text ingeeps">
+            {{ form_row(form_personne.departuredate, {'label': 'Date de départ'}) }}
+        </div>
+        <div>
+            {% if id != -1 %}
+                <input type="submit" name="save" value="Sauvegarder"/>
+            {% else %}
+                <input type="submit" name="save" value="Ajouter"/>
+            {% endif %}
+
+        </div>
+        {{ form_end(form_personne) }}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var InGeeps = $('#form_ingeeps');
+            var DateInGeeps = $('.ingeeps');
+
+           var id = {{ id }};
+
+            if ( id === -1){
+                $('#form_birthdate_year').val("");
+                $('#form_birthdate_month').val("");
+                $('#form_birthdate_day').val("");
+            }
+
+            if(InGeeps.prop('checked')){
+                DateInGeeps.show();
+            }else{
+                DateInGeeps.hide();
+                $('#form_arrivaldate_year').val("");
+                $('#form_arrivaldate_month').val("");
+                $('#form_arrivaldate_day').val("");
+
+                $('#form_departuredate_year').val("");
+                $('#form_departuredate_month').val("");
+                $('#form_departuredate_day').val("");
+            }
+
+            InGeeps.change( function () {
+                if(InGeeps.prop('checked')){
+                    DateInGeeps.slideDown();
+                }else{
+                    DateInGeeps.slideUp();
+                    $('#form_arrivaldate_year').val("");
+                    $('#form_arrivaldate_month').val("");
+                    $('#form_arrivaldate_day').val("");
+
+                    $('#form_departuredate_year').val("");
+                    $('#form_departuredate_month').val("");
+                    $('#form_departuredate_day').val("");
+                }
+            })
+        });
+    </script>
+{% endblock %}

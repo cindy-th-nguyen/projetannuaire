@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a class="lien-retour" href="{{ path("display_personne", {'id': user.id}) }}">Retour</a>
+    </div>
+
+    <div class="form-modify">
+        {{ form_start(form_compte) }}
+        <h1>Ajout/Modification Compte</h1>
+        <h2>{{ user.firstname }}
+            {{ user.lastname }}</h2>
+        <div class="input-text">
+            {{ form_row(form_compte.login, {'value': user.mail}) }}
+        </div>
+        <div class="input-password">
+            {{ form_row(form_compte.password, { 'type': 'password' }) }}
+            <img src="{{ asset('img/view-100.png') }}" alt="Voir" class="view-password" id="viewPassword">
+        </div>
+        <div class="input-text">
+            {{ form_row(form_compte.role, {'label': 'Rôle', 'attr': { 'class': 'select-role' }}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_compte.home_directory, {'label': 'Type d\'intervenant (Permanent/Non permanent)', 'attr': { 'class': 'select-role' }}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_compte.startdate, {'label': 'Début d\'activation'}) }}
+        </div>
+        <div class="input-text select-date">
+            {{ form_row(form_compte.enddate, {'label': 'Date'}) }}
+        </div>
+        <div>
+            <input name="save" type="submit" value="Sauvegarder"/>
+        </div>
+        {{ form_end(form_compte) }}
+    </div>
+
+{% endblock %}

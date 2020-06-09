@@ -1,0 +1,13 @@
+<header class="navbar">
+    <div class="navbar-logo">
+        <a href="{{ path('annuaire') }}"><img class="logo" src="{{ asset('img/logo-geeps.png') }}"></a>
+    </div>
+    <div class="menu-main">
+        <button class="menu-button">Administration</button>
+        <div class="menu-child">
+            <a class="btn-accueil" href="{{ path('manage_activities') }}">Services et Pôles</a>
+            <a href="{{ path('import-csv') }}">Import CSV</a>
+        </div>
+    </div>
+    <a href="{{ path('display_personne', { 'id': app.user.id }) }}" class="login-user">{{ app.user.login }}</a>
+</header>

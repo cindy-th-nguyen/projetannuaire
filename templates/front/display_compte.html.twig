@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte de
+    {{ user.lastname }}&nbsp;{{ user.firstname }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a class="lien-retour" href="{{ path("display_personne", { 'id': user.id }) }}">Retour</a>
+    </div>
+    <div class="form-modify">
+        <h1>Compte de
+            {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
+        <table class="table-user">
+            <tr>
+                <td>
+                    Login
+                </td>
+                <td>
+                    {{ compte.login }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rôle
+                </td>
+                <td>
+                    {{ role.name }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Type d'intervenant
+                </td>
+                <td>
+                    {{ compte.homeDirectory }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Début d'activation
+                </td>
+                <td>
+                    {% if compte.startdate != null %}
+                        {{ compte.startdate|date('d/m/Y') }}
+                    {% else %}
+                        Non défini
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Fin d'activation
+                </td>
+                <td>
+                    {% if compte.enddate != null %}
+                        {{ compte.enddate|date('d/m/Y') }}
+                    {% else %}
+                        Non défini
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Activé
+                </td>
+                <td>
+                    {% if compte.actif %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        <table class="table-btn" style="width: 100%; text-align:center;">
+            <tr>
+                <td>
+                    <a href="{{ path('form_compte', { 'id': user.id, 'id_compte': compte.id }) }}">
+                        <button class="btn-modify-user">Modifier</button>
+                    </a>
+                </td>
+                <td>
+                    {% if compte.actif %}
+                        <a href="{{ path('active_compte', { 'id_compte': compte.id, 'id': user.id }) }}">
+                            <button class="btn-delete-user">Désactiver</button>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('active_compte', { 'id_compte': compte.id, 'id': user.id }) }}">
+                            <button class="btn-add-contrat">Activer</button>
+                        </a>
+                    {% endif %}
+
+
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

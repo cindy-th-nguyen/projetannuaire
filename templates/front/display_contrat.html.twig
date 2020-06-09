@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrat de
+    {{ user.lastname }}&nbsp;{{ user.firstname }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a class="lien-retour" href="{{ path("display_personne", { 'id': user.id }) }}">Retour</a>
+    </div>
+    <div class="form-modify">
+        <h1>Contrat de
+            {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
+        <table class="table-user">
+            <tr>
+                <td>
+                    Sujet
+                </td>
+                <td>
+                    {{ contrat.subject }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Financement
+                </td>
+                <td>
+                    {{ contrat.funding }}
+                    €
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Directeur
+                </td>
+                <td>
+                    {{ contrat.director }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Responsable
+                </td>
+                <td>
+                    {{ contrat.administrator }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Organisme d'attache
+                </td>
+                <td>
+                    {{ contrat.homeorganization }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Salaire
+                </td>
+                <td>
+                    {{ contrat.salary }}
+                    €
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Sécurité sociale
+                </td>
+                <td>
+                    {{ contrat.securiteSocial }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Type de contrat
+                </td>
+                <td>
+                    {{ type.name }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date de début
+                </td>
+                <td>
+                    {{ contrat.startdate|date('d/m/Y') }}
+                </td>
+            </tr>
+            {% if type.id != '1' %}
+                <tr>
+                    <td>
+                        Date de fin
+                    </td>
+                    <td>
+                        {{ contrat.enddate|date('d/m/Y') }}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+        <table class="table-btn" style="width: 100%; text-align:center;">
+            <tr>
+                <td>
+                    <a href="{{ path('form_contrat', { 'id': user.id, 'id_contrat': contrat.id }) }}">
+                        <button class="btn-modify-user">Modifier</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('delete_contrat', { 'id_contrat': contrat.id, 'id': user.id }) }}">
+                        <button class="btn-delete-user" onclick="return confirm('Etes-vous sûr ?');">Supprimer</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

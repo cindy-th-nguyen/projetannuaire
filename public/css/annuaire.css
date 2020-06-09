@@ -1,0 +1,574 @@
+@keyframes text {
+    0% {
+        border-bottom-color: grey;
+    }
+
+    100% {
+        border-bottom-color: #3399FF;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .login-block {
+        width: 600px;
+        height: 600px;
+    }
+}
+
+
+body {
+    margin: 0;
+    font-family: Calibri, Verdana, "Trebuchet MS", sans-serif;
+}
+
+.titre {
+    letter-spacing: 1px;
+}
+
+.login-icon {
+    margin: 5px;
+    width: 20px;
+    vertical-align: middle;
+}
+
+.login-block {
+    border-top: 2px #3399FF solid;
+    padding: 10px;
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    /* border-radius: 8px; */
+    box-shadow: 0 0 25px #ccc;
+    margin-top: 60px;
+}
+
+.error {
+    color: red;
+}
+
+.login-logo {
+    width: 60%;
+}
+
+.login-input {
+    width: 60%;
+    margin-bottom: 10px;
+    padding: 8px 5px;
+    border: none;
+    border-bottom: grey 1.5px solid;
+    outline: none;
+    letter-spacing: 1px;
+}
+
+.login-input:focus {
+    animation: text 2s 1;
+    border-bottom-color: #3399FF;
+}
+
+.form-label {
+    margin: auto;
+    width: 60%;
+    text-align: left;
+}
+
+
+
+.input-label {
+    position: absolute;
+    padding: 8px 0px;
+    transition: transform 150ms ease-out, font-size 150ms ease-out;
+
+}
+
+.input-label:focus {
+    transform: translateY(-125%);
+    font-size: .75em;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.texte {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.login-button {
+    padding: 10px;
+    color: white;
+    background-color: #3399FF;
+    /* border-radius: 8px; */
+    border: none;
+    outline: none;
+    margin-top: 20px;
+    width: 60%;
+    cursor: pointer;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Tableau annuaire */
+.table-annuaire {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Pour chaque <tr>, impair */
+.table-annuaire tbody tr:nth-child(odd) {
+    background-color: #fcfdff;
+}
+
+/* Pour chaque <tr>, pair */
+.table-annuaire tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-annuaire td {
+    text-align: center;
+    /*border: 1px solid #17324f;*/
+    padding: 10px;
+}
+
+.table-annuaire tbody tr:hover {
+    background-color: #f6f6f6;
+}
+
+.table-annuaire a {
+    text-decoration: none;
+}
+
+/* Boutons dans le tableau annuaire */
+.table-annuaire button {
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Boutons mouse hover */
+.table-annuaire button:hover {
+    filter: opacity(.8);
+}
+
+/* Icônes des boutons */
+.table-annuaire button img {
+    padding: 4px 0 1px 0;
+    width: 14px;
+    height: 14px;
+}
+
+/* Permet de ne pas sauter de ligne pour les boutons */
+.do-not-wrap {
+    white-space: nowrap;
+}
+
+.button-add {
+    background-image: linear-gradient(120deg, #24bc16 0%, #1faa12 100%);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.button-add:hover {
+    opacity: 0.7;
+}
+
+/* Bouton Voir */
+.button-view {
+    background-image: linear-gradient(120deg, #94baef 0%, #365684 100%);
+    border: none;
+}
+
+/* Bouton Modifier */
+.button-edit {
+    background-image: linear-gradient(120deg, #ffa444 0%, #fc983c 100%);
+    border: none;
+}
+
+/* Bouton Supprimer */
+.button-delete {
+    background-image: linear-gradient(120deg, #dd8888 0%, #ff002a 100%);
+    border: none;
+}
+
+/* Smartphones */
+@media (max-width: 720px) {
+    .table-annuaire {
+        /* TODO : Rendre le tableau responsive */
+    }
+}
+
+.navbar {
+    box-shadow: 0 0 80px -20px;
+    height: 75px;
+    width: 100%;
+    display: inline-flex;
+    margin-bottom: 10px;
+}
+
+.navbar-logo {
+    margin: auto;
+    margin-left: 10px;
+}
+
+.logo {
+    width: 150px;
+}
+
+.logo-menu {
+    width: 25px;
+    height: 30px;
+    padding: 7px;
+    cursor: pointer;
+}
+
+.logo-menu:hover {
+    filter: drop-shadow(0px 0px 3px black);
+}
+
+.menu-main {
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 12vw;
+}
+
+.menu-button {
+    width: 100%;
+    border: none;
+    background-color: #3399FF;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+}
+
+.menu-main:hover .menu-child {
+    display: inline-grid;
+}
+
+.menu-child a {
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+}
+
+.menu-child a:hover {
+    background-color: #3399FF;
+}
+
+.menu-child {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    background-color: #99caff;
+}
+
+.tab-block {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.annuaire-container {
+    padding-top: 10px;
+}
+
+.lien-retour {
+    font-size: x-large;
+    letter-spacing: 0.5px;
+    margin: 10px;
+    padding: 0px 40px;
+    background-color: #3399FF;
+    color: white;
+    text-decoration: none;
+}
+
+.lien-retour:hover {
+    filter: drop-shadow(0px 0px 3px #94baef);
+}
+
+.tab-block h1 {
+    letter-spacing: 1px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.table-user {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.table-user tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.table-user tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.table-user td {
+    width: 50%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+.table-btn {
+    width: 100%;
+}
+
+.table-btn td {
+    width: 50%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+.table-btn button:hover {
+    filter: opacity(.8);
+}
+
+.btn-see-user {
+    width: 70%;
+    background-image: linear-gradient(120deg, #94baef 0%, #365684 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-modify-user {
+    width: 70%;
+    background-image: linear-gradient(120deg, #ffa444 0%, #fc983c 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete-user {
+    width: 70%;
+    background-image: linear-gradient(120deg, #dd8888 0%, #ff002a 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-modify {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 1%;
+    margin: 2% auto;
+    width: 40%;
+}
+
+.form-modify h1,
+.form-modify h2 {
+    text-align: center;
+}
+
+.form-modify input[type=text],
+.form-modify input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-modify select {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-modify input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid darkgreen;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-add-activite {
+    width: 100%;
+    background-image: linear-gradient(120deg, #24bc16 0%, #1faa12 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-add-contrat {
+    width: 70%;
+    background-image: linear-gradient(120deg, #24bc16 0%, #1faa12 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-modify-contrat {
+    width: 70%;
+    background-image: linear-gradient(120deg, #ffa444 0%, #fc983c 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete-contrat {
+    width: 70%;
+    background-image: linear-gradient(120deg, #dd8888 0%, #ff002a 100%);
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#btnAccueil {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+    margin: auto;
+}
+
+#btnAccueil>.btn-accueil {
+    float: left;
+    width: 160px;
+}
+
+#btnAccueil>.btn-accueil>.button-add {
+    width: 160px;
+}
+
+.table-user button {
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.table-user button:hover {
+    filter: opacity(.8);
+}
+
+.table-user button img {
+    padding: 4px 0 1px 0;
+    width: 14px;
+    height: 14px;
+}
+
+.table-user a {
+    text-decoration: none;
+}
+
+.select-activity select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-user {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.picker-color {
+    width: 100%;
+    margin: 3px 0px;
+    padding: 2px 0px;
+}
+
+.select-role {
+    width: 100% !important;
+}
+
+.view-password {
+    position: absolute;
+    right: 0;
+    width: 25px;
+    filter: brightness(0);
+    top: 5vh;
+    margin-right: 5px;
+}
+
+.input-password {
+    position: relative;
+    width: 100%;
+}
+
+.input-password input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.select-homeD {
+    width: 100% !important;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: #3399FF;
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    opacity: 0.7;
+}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire
+{% endblock %}
+
+{% block body %}
+
+<div>
+    <a class="lien-retour" href="{{ path("manage_activities") }}">Retour</a>
+</div>
+
+<div class="form-modify">
+    {{ form_start(form_activity) }}
+
+    {% if id != -1 %}
+        <h1>Modification</h1>
+    {% else %}
+        <h1>Ajout d'une activité</h1>
+    {% endif %}
+
+
+    <div class="input-text">
+        {{ form_row(form_activity.label, {'label': 'Label'}) }}
+    </div>
+    <div class="input-text">
+        {{ form_row(form_activity.typeof, {'label': 'Type de l\'activité'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_activity.color, {'label': 'Couleur', 'attr': { 'class': 'picker-color' }}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_activity.description, {'label': 'Description'}) }}
+        </div>
+
+        <div>
+            {% if id != -1 %}
+                <input type="submit" name="save" value="Sauvegarder"/>
+            {% else %}
+                <input type="submit" name="save" value="Ajouter"/>
+            {% endif %}
+
+        </div>
+        {{ form_end(form_activity) }}
+    </div>
+
+{% endblock %}

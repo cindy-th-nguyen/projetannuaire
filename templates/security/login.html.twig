@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ asset('css/annuaire.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <title>
+            {% block title %}Annuaire GeePs - Connexion
+            {% endblock %}
+        </title>
+    </head>
+
+    {% block body %}
+        <form method="post">
+            <div class="login-block">
+                <div class="center">
+                    <img class="login-logo" src="{{ asset('img/logo-geeps.png') }}" alt="Logo GeePs">
+                    <h2 class="texte titre">Connexion</h2>
+                    <div>
+                        <div class="form-group">
+                            <input class="login-input" placeholder="Login" type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control" required autofocus>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <input class="login-input" class="login-input" id="inputPassword" name="password" placeholder="Mot de passe" required type="password">
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                </div>
+
+                <div class="center">
+                    <button class="login-button" id="submitCo" type="submit">JE ME CONNECTE</button>
+                </div>
+                {% if error %}
+                    <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+            </div>
+        </form>
+    {% endblock %}
+</html>
