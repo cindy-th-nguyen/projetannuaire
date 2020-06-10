@@ -6,39 +6,25 @@
 
 {% block body %}
     <div>
-        <a class="lien-retour" href="{{ path("display_personne", { 'id': user.id }) }}">Retour</a>
+        <a class="lien-retour" href="{{ path('display_personne', { 'id': user.id }) }}">Retour</a>
     </div>
     <div class="form-modify">
         <h1>Compte de
             {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
         <table class="table-user">
             <tr>
-                <td>
-                    Login
-                </td>
-                <td>
-                    {{ compte.login }}
-                </td>
+                <td>Login</td>
+                <td>{{ compte.login }}</td>
             </tr>
             <tr>
-                <td>
-                    Rôle
-                </td>
-                <td>
-                    {{ role.name }}
-                </td>
+                <td>Rôle</td>
+                <td>{{ role.name }}</td>
             </tr>
             <tr>
-                <td>
-                    Type d'intervenant
-                </td>
-                <td>
-                    {{ compte.homeDirectory }}
-                </td>
+                <td>Type d'intervenant</td></td>
             </tr>
             <tr>
-                <td>
-                    Début d'activation
+                <td>Début d'activation
                 </td>
                 <td>
                     {% if compte.startdate != null %}
@@ -49,9 +35,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    Fin d'activation
-                </td>
+                <td>Fin d'activation</td>
                 <td>
                     {% if compte.enddate != null %}
                         {{ compte.enddate|date('d/m/Y') }}
@@ -61,9 +45,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    Activé
-                </td>
+                <td>Activé</td>
                 <td>
                     {% if compte.actif %}
                         Oui
@@ -90,8 +72,6 @@
                             <button class="btn-add-contrat">Activer</button>
                         </a>
                     {% endif %}
-
-
                 </td>
             </tr>
         </table>

@@ -161,6 +161,16 @@ body {
     height: 14px;
 }
 
+/* Icones des boutons 'Voir personne' */
+.btn-see-user {
+    padding: 0 !important ;
+}
+
+.table-user button img {
+    width: 23% !important ; 
+    height: 8% !important ; 
+}
+
 /* Permet de ne pas sauter de ligne pour les boutons */
 .do-not-wrap {
     white-space: nowrap;

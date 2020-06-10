@@ -101,24 +101,41 @@ class FrontController extends AbstractController
             ->add('mail')
             ->add('homephone')
             ->add('mobilephone')
-            ->add('office')
-            ->add('building')
-            ->add('tutelle')
             ->add('ingeeps')
+            ->add('nationality')
             ->add('arrivaldate', DateType::class, [
-                'years' => range(date('Y') -20, date('Y'))
+                'years' => range(date('Y') -50, date('Y'))
             ])
             ->add('departuredate', DateType::class, [
-                'years' => range(date('Y') +20, date('Y')),
+                'years' => range(1, 40),
             ])
             ->add('mail_geeps')
+            //->add('img', FileType::class, array('label' => 'Brochure (PDF file)'))
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
                     'Monsieur' => 'Monsieur',
                     'Madame' => 'Madame'
                 ],
             ])
-            //->add('img')
+            ->add('office', ChoiceType::class, [
+                'choices'  => [
+                    'Bureau 1' => '1',
+                    'Bureau 2' => '2'
+                ],
+            ])
+            ->add('building', ChoiceType::class, [
+                'choices'  => [
+                    'LRI' => 'LRI',
+                    'Gustave Eiffel' => 'Gust. Eiffel',
+                    'Bâtiment 1' => 'Bat. 1'
+                ],
+            ])
+            ->add('tutelle', ChoiceType::class, [
+                'choices'  => [
+                    'Tutelle 1' => 'Tutelle 1',
+                    'Tutelle 2' => 'Tutelle 2'
+                ],
+            ])
             ->getForm();
 
         $form_personne->handleRequest($request);
@@ -252,7 +269,25 @@ class FrontController extends AbstractController
                         $dateBirth = new \DateTime($column[3]);
                         $dateArriv = new \DateTime($column[12]);
                         $dateDepart = new \DateTime($column[13]);
-                        $personne->setFirstname($column[1])->setLastname($column[2])->setBirthdate($dateBirth)->setPlacebirth($column[4])->setHomephone($column[5])->setMobilephone($column[6])->setMail($column[7])->setOffice($column[8])->setBuilding($column[9])->setTutelle($column[10])->setIngeeps($column[11])->setArrivaldate($dateArriv)->setDeparturedate($dateDepart)->setCompte($compte);
+                        $personne
+                            ->setFirstname($column[1])
+                            ->setLastname($column[2])
+                            ->setBirthdate($dateBirth)
+                            ->setPlacebirth($column[4])
+                            ->setHomephone($column[5])
+                            ->setMobilephone($column[6])
+                            ->setMail($column[7])
+                            ->setOffice($column[8])
+                            ->setBuilding($column[9])
+                            ->setTutelle($column[10])
+                            ->setIngeeps($column[11])
+                            ->setArrivaldate($dateArriv)
+                            ->setCivilite($civilite)
+                            ->setDeparturedate($dateDepart)
+                            ->setCompte($compte)
+                            ->setNationality($nationality)
+                            ->setImg($img);
+                            
                         $em->persist($personne);
                         $em->flush();
                     }

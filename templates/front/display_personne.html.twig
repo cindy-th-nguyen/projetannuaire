@@ -6,122 +6,73 @@
 
 {% block body %}
     <div>
-        <a class="lien-retour" href="{{ path("annuaire") }}">Retour</a>
+        <a class="lien-retour" href="{{ path('annuaire') }}">Retour</a>
     </div>
     <div class="form-modify">
         <h1>{{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
         <table class="table-user">
             <tr>
-                <td>
-                    Prénom
-                </td>
-                <td>
-                    {{ user.firstname }}
-                </td>
+                <td>Prénom</td>
+                <td>{{ user.firstname }}</td>
             </tr>
             <tr>
-                <td>
-                    Nom de famille
-                </td>
-                <td>
-                    {{ user.lastname }}
-                </td>
+                <td>Nom de famille</td>
+                <td>{{ user.lastname }}</td>
             </tr>
             <tr>
-                <td>
-                    Date de naissance
-                </td>
-                <td>
-                    {{ user.birthdate|date('d/m/Y') }}
-                </td>
+                <td>Date de naissance</td>
+                <td>{{ user.birthdate|date('d/m/Y') }}</td>
             </tr>
             <tr>
-                <td>
-                    Lieu de naissance
-                </td>
-                <td>
-                    {{ user.placebirth }}
-                </td>
+                <td>Lieu de naissance</td>
+                <td>{{ user.placebirth }}</td>
             </tr>
             <tr>
-                <td>
-                    E-Mail
-                </td>
-                <td>
-                    {{ user.mail }}
-                </td>
+                <td>E-Mail</td>
+                <td>{{ user.mail }}</td>
             </tr>
             <tr>
-                <td>
-                    Tél. fixe
-                </td>
-                <td>
-                    {{ user.homephone }}
-                </td>
+                <td>Tél. fixe</td>
+                <td>{{ user.homephone }}</td>
             </tr>
             <tr>
-                <td>
-                    Tél. mobile
-                </td>
-                <td>
-                    {{ user.mobilephone }}
-                </td>
+                <td>Tél. mobile</td>
+                <td>{{ user.mobilephone }}</td>
             </tr>
             <tr>
-                <td>
-                    Bureau
-                </td>
-                <td>
-                    {{ user.office }}
-                </td>
+                <td>Bureau</td>
+                <td>{{ user.office }}</td>
             </tr>
             <tr>
-                <td>
-                    Bâtiment
-                </td>
-                <td>
-                    {{ user.building }}
-                </td>
+                <td>Bâtiment</td>
+                <td>{{ user.building }}</td>
             </tr>
             <tr>
-                <td>
-                    Tutelle
-                </td>
-                <td>
-                    {{ user.tutelle }}
-                </td>
+                <td>Tutelle</td>
+                <td>{{ user.tutelle }}</td>
             </tr>
             <tr>
+                <td>Est du laboratoire</td>
                 <td>
-                    Est du laboratoire
-                </td>
-                <td>
-                    {% if user.ingeeps == 1 %}Oui{% else %}Non
+                    {% if user.ingeeps == 1 %}
+                        Oui
+                    {% else %}
+                        Non
                     {% endif %}
                 </td>
             </tr>
             {% if user.ingeeps == 1 %}
                 <tr>
-                    <td>
-                        Date d'arrivée
-                    </td>
-                    <td>
-                        {{ user.arrivaldate|date('d/m/Y') }}
-                    </td>
+                    <td>Date d'arrivée</td>
+                    <td>{{ user.arrivaldate|date('d/m/Y') }}</td>
                 </tr>
                 <tr>
-                    <td>
-                        Date de départ
-                    </td>
-                    <td>
-                        {{ user.departuredate|date('d/m/Y') }}
-                    </td>
+                    <td> Date de départ</td>
+                    <td>{{ user.departuredate|date('d/m/Y') }}</td>
                 </tr>
             {% endif %}
             <tr>
-                <td>
-                    Contrat
-                </td>
+                <td>Contrat</td>
                 <td>
                     {% if contrat %}
                         <a href="{{ path('display_contrat', { 'id_contrat': contrat.id, 'id': user.id }) }}">
@@ -141,13 +92,11 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    Compte
-                </td>
+                <td>Compte</td>
                 <td>
                     {% if compte %}
                         <a href="{{ path('display_compte', { 'id_compte': compte.id, 'id': user.id }) }}">
-                            <button class="btn-see-user" title="Voir">Voir</button>
+                            <button class="btn-see-user" title="Voir"><img src="{{ asset('img/view-100.png') }} " alt="Voir"></button>
                         </a>
                     {% else %}
                         <a href="{{ path('form_compte', { 'id': user.id, 'id_compte': '-1' }) }}">
@@ -157,12 +106,10 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    Activités
-                </td>
+                <td>Activités</td>
                 <td>
                     <a href="{{ path('display_personne_activities', { 'id': user.id }) }}">
-                        <button class="btn-see-user">Voir</button>
+                        <button class="btn-see-user"><img src="{{ asset('img/view-100.png') }} " alt="Voir"></button>
                     </a>
                 </td>
             </tr>

@@ -64,6 +64,7 @@ class Personne
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/")
      */
     private $mailGeeps;
 
@@ -81,6 +82,11 @@ class Personne
      * @ORM\Column(type="integer", nullable=true)
      */
     private $office;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nationality;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -121,219 +127,174 @@ class Personne
 
 
 
-    public function getId()
-    {
+    public function getId(){
         return $this->id;
     }
 
-    public function getFirstname()
-    {
+    public function getFirstname(){
         return $this->firstname;
     }
 
-    public function setFirstname($firstname)
-    {
+    public function setFirstname($firstname){
         $this->firstname = $firstname;
-
         return $this;
     }
 
-    public function getLastname()
-    {
+    public function getLastname(){
         return $this->lastname;
     }
 
-    public function setLastname($lastname)
-    {
+    public function setLastname($lastname){
         $this->lastname = $lastname;
-
         return $this;
     }
 
-    public function getBirthdate()
-    {
+    public function getBirthdate(){
         return $this->birthdate;
     }
 
-    public function setBirthdate($birthdate)
-    {
+    public function setBirthdate($birthdate){
         $this->birthdate = $birthdate;
 
         return $this;
     }
 
-    public function getPlacebirth()
-    {
+    public function getPlacebirth(){
         return $this->placebirth;
     }
 
-    public function setPlacebirth($placebirth)
-    {
+    public function setPlacebirth($placebirth){
         $this->placebirth = $placebirth;
-
         return $this;
     }
 
-    public function getHomephone()
-    {
+    public function getHomephone(){
         return $this->homephone;
     }
 
-    public function setHomephone($homephone)
-    {
+    public function setHomephone($homephone){
         $this->homephone = $homephone;
-
         return $this;
     }
 
-    public function getMobilephone()
-    {
+    public function getMobilephone(){
         return $this->mobilephone;
     }
 
-    public function setMobilephone($mobilephone)
-    {
+    public function setMobilephone($mobilephone){
         $this->mobilephone = $mobilephone;
-
         return $this;
     }
 
-    public function getMail()
-    {
+    public function getMail(){
         return $this->mail;
     }
 
-    public function setMail($mail)
-    {
+    public function setMail($mail){
         $this->mail = $mail;
-
         return $this;
     }
 
-    public function getOffice()
-    {
+    public function getOffice(){
         return $this->office;
     }
 
-    public function setOffice($office)
-    {
+    public function setOffice($office){
         $this->office = $office;
-
         return $this;
     }
 
-    public function getBuilding()
-    {
+    public function getBuilding(){
         return $this->building;
     }
 
-    public function setBuilding( $building)
-    {
+    public function setBuilding( $building){
         $this->building = $building;
-
         return $this;
     }
 
-    public function getTutelle()
-    {
+    public function getTutelle(){
         return $this->tutelle;
     }
 
-    public function setTutelle($tutelle)
-    {
+    public function setTutelle($tutelle){
         $this->tutelle = $tutelle;
-
         return $this;
     }
 
-    public function getIngeeps()
-    {
+    public function getIngeeps(){
         return $this->ingeeps;
     }
 
-    public function setIngeeps($ingeeps)
-    {
+    public function setIngeeps($ingeeps){
         $this->ingeeps = $ingeeps;
-
         return $this;
     }
 
-    public function getArrivaldate()
-    {
+    public function getArrivaldate(){
         return $this->arrivaldate;
     }
 
-    public function setArrivaldate($arrivaldate)
-    {
+    public function setArrivaldate($arrivaldate){
         $this->arrivaldate = $arrivaldate;
-
         return $this;
     }
 
-    public function getDeparturedate()
-    {
+    public function getDeparturedate(){
         return $this->departuredate;
     }
 
-    public function setDeparturedate($departuredate)
-    {
+    public function setDeparturedate($departuredate){
         $this->departuredate = $departuredate;
-
         return $this;
     }
 
-    public function getStatus()
-    {
+    public function getStatus(){
         return $this->status;
     }
 
-    public function setStatus($status)
-    {
+    public function setStatus($status){
         $this->status = $status;
-
         return $this;
     }
 
-    public function getCompte()
-    {
+    public function getCompte(){
         return $this->compte;
     }
 
-    public function setCompte($compte)
-    {
+    public function setCompte($compte){
         $this->compte = $compte;
     }
 
-    public function getMailGeeps()
-    {
+    public function getMailGeeps(){
         return $this->mailGeeps;
     }
 
-    public function setMailGeeps($mailGeeps)
-    {
+    public function setMailGeeps($mailGeeps){
         $this->mailGeeps = $mailGeeps;
     }
 
-    public function getCivilite()
-    {
+    public function getCivilite(){
         return $this->civilite;
     }
 
-    public function setCivilite($civilite)
-    {
-        $this->civilité = $civilite;
+    public function setCivilite($civilite){
+        $this->civilite = $civilite;
     }
 
-    public function getImg()
-    {
+    public function getNationality(){
+        return $this->nationality;
+    }
+
+    public function setNationality($nationality){
+        $this->nationality = $nationality;
+    }
+    
+    public function getImg(){
         return $this->img;
     }
 
-    public function setImg($img)
-    {
+    public function setImg($img){
         $this->img = $img;
     }
-
-
-
 }

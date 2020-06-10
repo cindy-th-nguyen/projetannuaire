@@ -6,7 +6,7 @@
 {% block body %}
 
 <div>
-    <a class="lien-retour" href="{{ path("annuaire") }}">Retour</a>
+    <a class="lien-retour" href="{{ path('annuaire') }}">Retour</a>
 </div>
 
 <div class="form-modify">
@@ -19,16 +19,19 @@
     {% endif %}
 
         <div class="input-text">
-            {{ form_row(form_personne.firstname, {'label': 'Prénom'}) }}
+            {{ form_row(form_personne.firstname, {'label': 'Prénom *'}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.lastname, {'label': 'Nom de famille'}) }}
+            {{ form_row(form_personne.lastname, {'label': 'Nom de famille *'}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.civilite, {'label': 'Civilité', 'attr' : { 'class': 'select-role'}}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.birthdate, {'label': 'Date de naissance'}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.nationality, {'label': 'Nationalité'}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.placebirth, {'label': 'Lieu de naissance'}) }}
@@ -46,13 +49,13 @@
             {{ form_row(form_personne.mobilephone, {'label': 'Tél. mobile'}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.office, {'label': 'Bureau'}) }}
+            {{ form_row(form_personne.office, {'label': 'Bureau', 'attr' : { 'class': 'select-role'}}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.building, {'label': 'Bâtiment'}) }}
+            {{ form_row(form_personne.building, {'label': 'Bâtiment', 'attr' : { 'class': 'select-role'}}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.tutelle, {'label': 'Tutelle'}) }}
+            {{ form_row(form_personne.tutelle, {'label': 'Tutelle', 'attr' : { 'class': 'select-role'}}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.ingeeps, {'label': 'Est du laboratoire'}) }}
@@ -63,6 +66,7 @@
         <div class="input-text ingeeps">
             {{ form_row(form_personne.departuredate, {'label': 'Date de départ'}) }}
         </div>
+        <p><i>*<sub>Champs obligatoires</sub></i></p>
         <div>
             {% if id != -1 %}
                 <input type="submit" name="save" value="Sauvegarder"/>
