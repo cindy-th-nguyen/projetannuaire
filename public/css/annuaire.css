@@ -545,6 +545,23 @@ body {
     width: 100% !important;
 }
 
+.select-building {
+    width: 100% !important;
+}
+
+.select-office {
+    width: 100% !important;
+}
+
+.select-tutelle {
+    width: 100% !important;
+}
+
+.upload-photo {
+    width: 100% !important;
+    padding-top: 1%;
+}
+
 .view-password {
     position: absolute;
     right: 0;
