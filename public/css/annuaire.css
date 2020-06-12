@@ -154,6 +154,11 @@ body {
     filter: opacity(.8);
 }
 
+/* Image des utilisateurs */
+#user-img img{
+    height: 70px;
+}
+
 /* Icônes des boutons */
 .table-annuaire button img {
     padding: 4px 0 1px 0;
@@ -582,3 +587,4 @@ body {
 .btn-submit:hover {
     opacity: 0.7;
 }
+

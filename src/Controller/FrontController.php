@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use App\Entity\Personne;
 use App\Entity\Contrat;
@@ -99,6 +101,7 @@ class FrontController extends AbstractController
             ])
             ->add('placebirth')
             ->add('mail')
+            ->add('mail_geeps')
             ->add('homephone')
             ->add('mobilephone')
             ->add('ingeeps')
@@ -109,7 +112,6 @@ class FrontController extends AbstractController
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            ->add('mail_geeps')
             //->add('img', FileType::class, array('label' => 'Brochure (PDF file)'))
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
@@ -199,10 +201,10 @@ class FrontController extends AbstractController
             ->add('salary')
             ->add('securite_social')
             ->add('startdate', DateType::class, [
-                'years' => range(date('Y') -20, date('Y'))
+                'years' => range(date('Y') -50, date('Y'))
             ])
             ->add('enddate', DateType::class, [
-                'years' => range(date('Y') +20, date('Y')),
+                'years' => range(date('Y'), date('Y') +20),
             ])
             ->add('type')
             ->getForm();
@@ -503,10 +505,10 @@ class FrontController extends AbstractController
             ])
             ->add('role')
             ->add('startdate', DateType::class, [
-                'years' => range(date('Y') -10, date('Y') -15)
+                'years' => range(date('Y') -50, date('Y'))
             ])
             ->add('enddate', DateType::class, [
-                'years' => range(date('Y') +10, date('Y') -15)
+                'years' => range(date('Y'), date('Y') +20),
             ])
             ->getForm();
 
