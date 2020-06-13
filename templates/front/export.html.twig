@@ -22,17 +22,24 @@
                 <form class="form-horizontal" action="{{ path('export') }}" method="post" name="frmExport"
                       id="frmExport" enctype="multipart/form-data">
                     <div class="input-row">
-                        <label class="col-md-4 control-label">Choisir un fichier CSV</label>
+                        <label class="col-md-4 control-label">Exporter en : </label>
+                        <select id="exportType" name="exportType">
+                            <option value="PDF">PDF</option>
+                            <option value="CSV">CSV</option>
+                        </select>
                         <br>
                         <br>
                         <div>
-                            <input type="checkbox" id="check" name="check" onclick="hide('users')">
+                            <input type="checkbox" id="checkAll" name="checkAll" onclick="hide('users')">
                             <label for="scales">toutes les personnes</label>
                         </div>
                         <br>
                         <br>
 
                         <div class="annuaire-container" id="users">
+                            <label for="scales">Choix des personnes : </label>
+                            <br>
+                            <br>
                             <table class="table-annuaire cell-border" id="annuaire">
                                 <thead>
                                 <tr>
