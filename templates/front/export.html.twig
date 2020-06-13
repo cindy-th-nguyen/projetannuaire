@@ -4,6 +4,16 @@
 {% endblock %}
 
 {% block body %}
+    <script>
+        function hide(id) {
+            var x = document.getElementById(id);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <div class="form-modify">
         <h1>Exporter des données</h1>
         <div id="response" class=""></div>
@@ -15,9 +25,45 @@
                         <label class="col-md-4 control-label">Choisir un fichier CSV</label>
                         <br>
                         <br>
-                        <input type="file" name="file" id="file" accept=".csv">
+                        <div>
+                            <input type="checkbox" id="check" name="check" onclick="hide('users')">
+                            <label for="scales">toutes les personnes</label>
+                        </div>
                         <br>
                         <br>
+
+                        <div class="annuaire-container" id="users">
+                            <table class="table-annuaire cell-border" id="annuaire">
+                                <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Photo</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Mail</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="check{{ user.id }}" name="check{{ user.id }}">
+                                    </td>
+                                    {% if user.img !='' %}
+                                        <td id='user-img'><img src="../../../img/{{ user.img }}"></img></td>
+                                    {% else %}
+                                        <td id='user-img'><img src="../../../img/default-user.png"></img></td>
+                                    {% endif %}
+                                    <td>{{ user.lastname }}</td>
+                                    <td>{{ user.firstname }}</td>
+                                    <td>{{ user.mailGeeps }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+
                         <button type="submit" id="submit" name="import" class="btn-submit">Importer</button>
                     </div>
                 </form>
