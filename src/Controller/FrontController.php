@@ -6,6 +6,12 @@ use App\Entity\Compte;
 use App\Entity\Workon;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -263,6 +269,7 @@ class FrontController extends AbstractController
                     if ($n > 0)
                     {
                         $compte = new Compte();
+                        $compte->setLogin($column[7]);
                         $compte->setPassword('azerty');
                         $em->persist($compte);
                         $em->flush();
@@ -299,6 +306,10 @@ class FrontController extends AbstractController
         return $this->render('front/import.html.twig');
     }
 
+    private function parsePersonArray($listPerson){
+
+    }
+
     /**
      * @Route("/export", name="export")
      * @return mixed
@@ -306,31 +317,89 @@ class FrontController extends AbstractController
     public function exportCSV(Request $request)
     {
         $users = $this->getDoctrine()->getRepository('App:Personne')->findall();
-
+        dump("aaaaa");
         if ($request->isMethod('post')) {
+            $selectedUsers = array();
+            if(isset($_POST['checkAll'])){
+                $selectedUsers = $users;
+            }else{
+                foreach ($users as $user){
+                    $id = $user->getId();
+                    if(isset($_POST['check' . $id])){
+                        array_push($selectedUsers, $user);
+                    }
+                }
+            }
+            dump("df");
+            dump($_POST['exportType']);
+            dump(isset($_POST['exportType']));
+            if(isset($_POST['exportType']) &&  (strcmp($_POST['exportType'], 'CSV') !== 0)){
 
-            foreach ($users as $user){
-                $id = $user->getId();
-                if(isset($_POST['check' . $id])){
-                    var_dump($id);
+
+
+
+            }else{
+                $filename = "export_" . date("d_m_Y") . ".csv";
+                dump("dfdf");
+                dump($selectedUsers);
+                if (count($selectedUsers) > 0) {
+
+                    $response = new StreamedResponse();
+                    $response->setCallback(function() use ($selectedUsers){
+                        $df = fopen("php://output", 'w+');
+                        fputcsv($df, array('Prénom',
+                            'Nom de famille',
+                            'Date de naissance',
+                            'Lieu de naissance',
+                            'Email' ,
+                            'E-Mail GeePs',
+                            'Tél. fixe',
+                            'Tél. mobile',
+                            'Bureau',
+                            'Bâtiment',
+                            'Tutelle',
+                            'Est du laboratoire',
+                            'Date d\'arrivée',
+                            'Date de départ'));
+                        foreach ($selectedUsers as $user) {
+                            if($user->getBirthdate() != null) {
+                                $date1 = $user->getBirthdate()->format('d/m/Y');
+                            }else{
+                                $date1 = null;
+                            }
+                            if($user->getArrivaldate() != null){
+                                $date2 = $user->getArrivaldate()->format('d/m/Y');
+                                $date3 = $user->getDeparturedate()->format('d/m/Y');
+                            }else{
+                                $date2 = null;
+                                $date3 = null;
+                            }
+                            fputcsv($df, array($user->getFirstname(),
+                                $user->getLastname(),
+                                $date1,
+                                $user->getPlacebirth(),
+                                $user->getMail(),
+                                $user->getMailGeeps(),
+                                $user->getHomephone(),
+                                $user->getMobilephone(),
+                                $user->getOffice(),
+                                $user->getBuilding(),
+                                $user->getTutelle(),
+                                $user->getIngeeps(),
+                                $date2,
+                                $date3));
+                        }
+                        fclose($df);
+                    });
+
+                    $response->setStatusCode(200);
+                    $response->headers->set('Content-Type', 'text/csv; charset=utf-8', 'application/force-download');
+                    $response->headers->set('Content-Disposition','attachment; filename='.$filename);
+
+                    return $response;
                 }
             }
-            for($i = 0; $i <= sizeof($users); $i++){
-                if(isset($_POST['check' . $i])){
-                    var_dump($i);
-                }
-            }
-//            if (count($array) == 0) {
-//                return null;
-//            }
-//            ob_start();
-//            $df = fopen("php://output", 'w');
-//            fputcsv($df, array_keys(reset($array)));
-//            foreach ($array as $row) {
-//                fputcsv($df, $row);
-//            }
-//            fclose($df);
-//            return ob_get_clean();
+
         }
 
         return $this->render('front/export.html.twig', ['users'=>$users]);
