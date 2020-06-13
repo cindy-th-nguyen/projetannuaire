@@ -40,7 +40,9 @@ class Personne
 
         /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Regex("/^[A-Z][A-Za-zéèêë\-]+$/")
+     * @Assert\Regex(
+     *     pattern="/^[A-Za-zéèêë\-]+$/"
+     * )
      */
     private $placebirth;
 
