@@ -94,12 +94,28 @@ class FrontController extends AbstractController
             
         }
 
-        // Récuperer la table tutuelle
+        // Récuperer table tutelle
         $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
         $select_tutelles= [];
         
         foreach($tutelles as $tutelle){
             $select_tutelles[$tutelle->getName()] = $tutelle->getId();
+        }
+
+        // Récupérer table office
+        $offices = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        $select_offices = [];
+        
+        foreach($offices as $office){
+            $select_offices[$office->getName()] = $office->getId();
+        }
+
+        // Récupérer table building
+        $buildings = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        $select_buildings = [];
+        
+        foreach($buildings as $building){
+            $select_buildings[$building->getName()] = $building->getId();
         }
 
         // Création du formulaire
@@ -132,17 +148,10 @@ class FrontController extends AbstractController
                 ],
             ])
             ->add('office', ChoiceType::class, [
-                'choices'  => [
-                    '1' => '1',
-                    '2' => '2'
-                ],
+                'choices'  => $select_offices,
             ])
             ->add('building', ChoiceType::class, [
-                'choices'  => [
-                    'LRI' => 'LRI',
-                    'Gustave Eiffel' => 'Gust. Eiffel',
-                    'Bâtiment 1' => 'Bat. 1'
-                ],
+                'choices'  => $select_buildings,
             ])
             ->add('tutelle', ChoiceType::class, [
                 'choices' => $select_tutelles,
