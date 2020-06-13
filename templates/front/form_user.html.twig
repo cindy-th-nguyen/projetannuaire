@@ -49,13 +49,13 @@
             {{ form_row(form_personne.mobilephone, {'label': 'Tél. mobile'}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.office, {'label': 'Bureau', 'attr' : { 'class': 'select-role'}}) }}
+            {{ form_row(form_personne.office, {'label': 'Bureau', 'attr' : { 'class': 'select-office'}}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.building, {'label': 'Bâtiment', 'attr' : { 'class': 'select-role'}}) }}
+            {{ form_row(form_personne.building, {'label': 'Bâtiment', 'attr' : { 'class': 'select-building'}}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.tutelle, {'label': 'Tutelle', 'attr' : { 'class': 'select-role'}}) }}
+            {{ form_row(form_personne.tutelle, {'label': 'Tutelle', 'attr' : { 'class': 'select-tutelle'}}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.ingeeps, {'label': 'Est du laboratoire'}) }}
@@ -65,6 +65,9 @@
         </div>
         <div class="input-text ingeeps">
             {{ form_row(form_personne.departuredate, {'label': 'Date de départ'}) }}
+        </div>
+        <div class="input-text ingeeps">
+            {{ form_row(form_personne.img, {'label': 'Photo', 'attr' : { 'class': 'upload-photo'}}) }}
         </div>
         <p><i>*<sub>Champs obligatoires</sub></i></p>
         <div>

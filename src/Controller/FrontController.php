@@ -112,7 +112,7 @@ class FrontController extends AbstractController
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            //->add('img', FileType::class, array('label' => 'Brochure (PDF file)'))
+            ->add('img', FileType::class)
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
                     'Monsieur' => 'Monsieur',
