@@ -112,9 +112,7 @@ class FrontController extends AbstractController
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            ->add('img', FileType::class, [
-                'mapped' => false
-            ])
+            ->add('img', FileType::class, ['required' => false])
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
                     'Monsieur' => 'Monsieur',
@@ -497,7 +495,7 @@ class FrontController extends AbstractController
         return $this->render('front/display_compte.html.twig', [ 'user'=>$user, 'compte'=>$compte, 'role'=>$role]);
     }
 
-        /**
+    /**
      * @Route("/form_compte/{id}/{id_compte}", name="form_compte")
      * @param Request $request
      * @param ObjectManager $om
