@@ -82,7 +82,7 @@ class FrontController extends AbstractController
      * @return mixed
      */
     public function formUser(Request $request, ObjectManager $om, $id)
-    {
+    {   
         if($id == -1)   // Ajout
         {
             $user = new Personne();
@@ -112,7 +112,9 @@ class FrontController extends AbstractController
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            ->add('img', FileType::class)
+            ->add('img', FileType::class, [
+                'mapped' => false
+            ])
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
                     'Monsieur' => 'Monsieur',
@@ -121,8 +123,8 @@ class FrontController extends AbstractController
             ])
             ->add('office', ChoiceType::class, [
                 'choices'  => [
-                    'Bureau 1' => '1',
-                    'Bureau 2' => '2'
+                    '1' => '1',
+                    '2' => '2'
                 ],
             ])
             ->add('building', ChoiceType::class, [
@@ -134,8 +136,7 @@ class FrontController extends AbstractController
             ])
             ->add('tutelle', ChoiceType::class, [
                 'choices'  => [
-                    'Tutelle 1' => 'Tutelle 1',
-                    'Tutelle 2' => 'Tutelle 2'
+                    '0' => '0',
                 ],
             ])
             ->getForm();
