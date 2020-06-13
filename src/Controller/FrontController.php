@@ -307,8 +307,21 @@ class FrontController extends AbstractController
      */
     public function exportCSV(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $users = $this->getDoctrine()->getRepository('App:Personne')->findall();
+
         if ($request->isMethod('post')) {
+
+            foreach ($users as $user){
+                $id = $user->getId();
+                if(isset($_POST['check' . $id])){
+                    var_dump($id);
+                }
+            }
+            for($i = 0; $i <= sizeof($users); $i++){
+                if(isset($_POST['check' . $i])){
+                    var_dump($i);
+                }
+            }
 //            if (count($array) == 0) {
 //                return null;
 //            }
@@ -322,7 +335,7 @@ class FrontController extends AbstractController
 //            return ob_get_clean();
         }
 
-        return $this->render('front/export.html.twig');
+        return $this->render('front/export.html.twig', ['users'=>$users]);
     }
 
     /**
