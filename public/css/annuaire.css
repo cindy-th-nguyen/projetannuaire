@@ -213,6 +213,12 @@ body {
     border: none;
 }
 
+/* Bouton Supprimer */
+.button-export {
+    background-image: linear-gradient(120deg, #00c163 0%, #00b605 100%);
+    border: none;
+}
+
 /* Smartphones */
 @media (max-width: 720px) {
     .table-annuaire {

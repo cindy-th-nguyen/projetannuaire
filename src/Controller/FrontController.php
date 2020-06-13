@@ -260,7 +260,7 @@ class FrontController extends AbstractController
            foreach ($request->files as $filename){
                $path = $filename->getPathName();
                 $file = fopen("$path", "r");
-                while (($column = fgetcsv($file, 1024, ";")) !== FALSE) {
+                while (($column = fgetcsv($file, 1024, ",")) !== FALSE) {
                     if ($n > 0)
                     {
                         $compte = new Compte();
@@ -268,36 +268,60 @@ class FrontController extends AbstractController
                         $em->persist($compte);
                         $em->flush();
                         $personne = new Personne();
-                        $dateBirth = new \DateTime($column[3]);
-                        $dateArriv = new \DateTime($column[12]);
-                        $dateDepart = new \DateTime($column[13]);
+                        $dateBirth = \DateTime::createFromFormat('d/m/Y', $column[3]);
+                        $dateArriv = \DateTime::createFromFormat('d/m/Y', $column[14]);
+                        $dateDepart = \DateTime::createFromFormat('d/m/Y', $column[15]);
                         $personne
-                            ->setFirstname($column[1])
-                            ->setLastname($column[2])
+                            ->setFirstname($column[0])
+                            ->setLastname($column[1])
+                            ->setCivilite($column[2])
                             ->setBirthdate($dateBirth)
-                            ->setPlacebirth($column[4])
-                            ->setHomephone($column[5])
-                            ->setMobilephone($column[6])
-                            ->setMail($column[7])
-                            ->setOffice($column[8])
-                            ->setBuilding($column[9])
-                            ->setTutelle($column[10])
-                            ->setIngeeps($column[11])
+                            ->setNationality($column[4])
+                            ->setPlacebirth($column[5])
+                            ->setMail($column[6])
+                            ->setMailGeeps($column[7])
+                            ->setHomephone($column[8])
+                            ->setMobilephone($column[9])
+                            ->setOffice($column[10])
+                            ->setBuilding($column[11])
+                            ->setTutelle($column[12])
+                            ->setIngeeps($column[13])
                             ->setArrivaldate($dateArriv)
-                            ->setCivilite($civilite)
                             ->setDeparturedate($dateDepart)
-                            ->setCompte($compte)
-                            ->setNationality($nationality)
-                            ->setImg($img);
-                            
+                            ->setCompte($compte);
                         $em->persist($personne);
                         $em->flush();
                     }
                     $n+=1;
                 }
+                fclose($file);
             }
         }
         return $this->render('front/import.html.twig');
+    }
+
+    /**
+     * @Route("/export", name="export")
+     * @return mixed
+     */
+    public function exportCSV(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        if ($request->isMethod('post')) {
+//            if (count($array) == 0) {
+//                return null;
+//            }
+//            ob_start();
+//            $df = fopen("php://output", 'w');
+//            fputcsv($df, array_keys(reset($array)));
+//            foreach ($array as $row) {
+//                fputcsv($df, $row);
+//            }
+//            fclose($df);
+//            return ob_get_clean();
+        }
+
+        return $this->render('front/export.html.twig');
     }
 
     /**

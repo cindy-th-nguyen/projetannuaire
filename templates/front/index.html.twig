@@ -67,6 +67,9 @@
                                     <a href="{{ path('delete', { 'id': user.id }) }}">
                                         <button class="button-delete" title="Supprimer" onclick="return confirm('Etes-vous sûr ?');"><img src="{{ asset('img/delete-100.png') }}" alt="Supprimer"></button>
                                     </a>
+                                    <a href="{{ path('export', { 'id': user.id }) }}">
+                                        <button class="button-export" title="Export"><img src="{{ asset('img/export.png') }}" alt="Export"></button>
+                                    </a>
                                 </span>
                             </td>
                         </tr>

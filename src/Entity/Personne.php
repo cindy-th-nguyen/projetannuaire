@@ -264,6 +264,7 @@ class Personne
 
     public function setCompte($compte){
         $this->compte = $compte;
+        return $this;
     }
 
     public function getMailGeeps(){
@@ -272,6 +273,7 @@ class Personne
 
     public function setMailGeeps($mailGeeps){
         $this->mailGeeps = $mailGeeps;
+        return $this;
     }
 
     public function getCivilite(){
@@ -280,6 +282,7 @@ class Personne
 
     public function setCivilite($civilite){
         $this->civilite = $civilite;
+        return $this;
     }
 
     public function getNationality(){
@@ -288,6 +291,7 @@ class Personne
 
     public function setNationality($nationality){
         $this->nationality = $nationality;
+        return $this;
     }
     
     public function getImg(){
@@ -296,5 +300,6 @@ class Personne
 
     public function setImg($img){
         $this->img = $img;
+        return $this;
     }
 }

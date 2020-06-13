@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire
+{% endblock %}
+
+{% block body %}
+    <div class="form-modify">
+        <h1>Exporter des données</h1>
+        <div id="response" class=""></div>
+        <div class="outer-scontainer">
+            <div class="row">
+                <form class="form-horizontal" action="{{ path('export') }}" method="post" name="frmExport"
+                      id="frmExport" enctype="multipart/form-data">
+                    <div class="input-row">
+                        <label class="col-md-4 control-label">Choisir un fichier CSV</label>
+                        <br>
+                        <br>
+                        <input type="file" name="file" id="file" accept=".csv">
+                        <br>
+                        <br>
+                        <button type="submit" id="submit" name="import" class="btn-submit">Importer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

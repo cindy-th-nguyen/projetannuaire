@@ -7,8 +7,8 @@
         <div class="menu-child">
             <a class="btn-accueil" href="{{ path('manage_activities') }}">Services et Pôles</a>
             <a href="{{ path('import-csv') }}">Import CSV</a>
-            <a href="{{ path('import-csv') }}">Export CSV</a>
-            <a href="{{ path('import-csv') }}">Export PDF</a>
+            <a href="{{ path('export') }}">Export</a>
+
         </div>
     </div>
     <a href="{{ path('display_personne', { 'id': app.user.id }) }}" class="login-user">{{ app.user.login }}</a>
