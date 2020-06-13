@@ -89,6 +89,7 @@ class FrontController extends AbstractController
      */
     public function formUser(Request $request, ObjectManager $om, $id)
     {   
+        
         if($id == -1)   // Ajout
         {
             $user = new Personne();
@@ -96,6 +97,15 @@ class FrontController extends AbstractController
         elseif($id != -1)   // modif
         {
             $user = $this->getDoctrine()->getRepository('App:Personne')->findOneBy(['id' => $id]);
+            
+        }
+
+        // Récuperer la table tutuelle
+        $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        $select_tutelles= [];
+        
+        foreach($tutelles as $tutelle){
+            $select_tutelles[$tutelle->getName()] = $tutelle->getId();
         }
 
         // Création du formulaire
@@ -118,7 +128,9 @@ class FrontController extends AbstractController
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            ->add('img', FileType::class, ['required' => false])
+            ->add('img', FileType::class, [
+                'required' => false
+            ])
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
                     'Monsieur' => 'Monsieur',
@@ -139,9 +151,7 @@ class FrontController extends AbstractController
                 ],
             ])
             ->add('tutelle', ChoiceType::class, [
-                'choices'  => [
-                    '0' => '0',
-                ],
+                'choices' => $select_tutelles,
             ])
             ->getForm();
 
@@ -154,8 +164,7 @@ class FrontController extends AbstractController
 
             return $this->redirectToRoute('annuaire');
         }
-
-        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id]);
+        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id, 'tutelles' => $tutelles]);
     }
 
     /**
@@ -518,7 +527,6 @@ class FrontController extends AbstractController
         $workon = new Workon();
 
         $select_activities = [];
-
         /* Pour chaque activité on crée le tableau que l'on va passer
            en argument à 'choices' pour le select */
         foreach($activites as $activity)
