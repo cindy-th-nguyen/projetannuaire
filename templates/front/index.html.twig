@@ -42,11 +42,7 @@
                 <tbody>
                     {% for user in users %}
                         <tr>
-                            {% if user.img !='' %}
-                                <td id='user-img'><img src="../../../img/{{ user.img }}"></img></td>
-                            {% else %}
-                            <td id='user-img'><img src="../../../img/default-user.png"></img></td>
-                            {% endif %}
+                            <td id='user-img'><img src="../../../img/{{ user.img }}"></img></td>
                             <td>{{ user.civilite }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.firstname }}</td>
@@ -66,9 +62,6 @@
                                     </a>
                                     <a href="{{ path('delete', { 'id': user.id }) }}">
                                         <button class="button-delete" title="Supprimer" onclick="return confirm('Etes-vous sûr ?');"><img src="{{ asset('img/delete-100.png') }}" alt="Supprimer"></button>
-                                    </a>
-                                    <a href="{{ path('export', { 'id': user.id }) }}">
-                                        <button class="button-export" title="Export"><img src="{{ asset('img/export.png') }}" alt="Export"></button>
                                     </a>
                                 </span>
                             </td>

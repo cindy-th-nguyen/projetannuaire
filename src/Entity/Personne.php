@@ -127,8 +127,6 @@ class Personne
      */
     private $compte;
 
-
-
     public function getId(){
         return $this->id;
     }

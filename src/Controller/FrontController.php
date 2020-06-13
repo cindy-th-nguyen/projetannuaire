@@ -38,8 +38,11 @@ class FrontController extends AbstractController
      */
     public function index()
     {
-      $users = $this->getDoctrine()->getRepository('App:Personne')->findall(); //->findOneBy(['lastname'=>'Dupont'])
-        return $this->render('front/index.html.twig', ['users'=>$users]);
+        $users = $this->getDoctrine()->getRepository('App:Personne')->findAll();
+        foreach ($users as $user) {
+            $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findBy(['id' => $user->getId()]);
+        }
+        return $this->render('front/index.html.twig', [ 'users' => $users, 'tutelles' => $tutelles ]);
     }
 
     /**
@@ -51,8 +54,14 @@ class FrontController extends AbstractController
     {
         $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
         $contrat = $this->getDoctrine()->getRepository('App:Contrat')->findOneBy(['personne' => $id]);
+        $thematique = $this->getDoctrine()->getRepository('App:Thematique')->findOneBy(['id' => $id]);
         $compte = $this->getDoctrine()->getRepository('App:Compte')->findOneBy(['id' => $user->getCompte()]);
-        return $this->render('front/display_personne.html.twig', ['user' => $user, 'contrat' => $contrat, 'compte' => $compte]);
+        return $this->render('front/display_personne.html.twig', [
+            'user' => $user,
+            'contrat' => $contrat, 
+            'compte' => $compte, 
+            'themathique' => $thematique
+            ]);
     }
 
     /**
@@ -90,14 +99,11 @@ class FrontController extends AbstractController
     public function formUser(Request $request, ObjectManager $om, $id)
     {   
         
-        if($id == -1)   // Ajout
-        {
+        if($id == -1){
             $user = new Personne();
         }
-        elseif($id != -1)   // modif
-        {
+        else {
             $user = $this->getDoctrine()->getRepository('App:Personne')->findOneBy(['id' => $id]);
-            
         }
 
         // Récuperer table tutelle

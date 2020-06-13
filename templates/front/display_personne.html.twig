@@ -12,6 +12,14 @@
         <h1>{{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
         <table class="table-user">
             <tr>
+                <td>Photo</td>
+                <td><img src='{{ user.firstname }}'></img></td>
+            </tr>
+            <tr>
+                <td>Civilité</td>
+                <td>{{ user.civilite }}</td>
+            </tr>
+            <tr>
                 <td>Prénom</td>
                 <td>{{ user.firstname }}</td>
             </tr>
@@ -22,6 +30,10 @@
             <tr>
                 <td>Date de naissance</td>
                 <td>{{ user.birthdate|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td>Nationalité</td>
+                <td>{{ user.nationality }}</td>
             </tr>
             <tr>
                 <td>Lieu de naissance</td>
@@ -73,6 +85,26 @@
             {% endif %}
             <tr>
                 <td>Contrat</td>
+                <td>
+                    {% if contrat %}
+                        <a href="{{ path('display_contrat', { 'id_contrat': contrat.id, 'id': user.id }) }}">
+                            <button class="button-view" title="Voir"><img src="{{ asset('img/view-100.png') }}" alt="Voir"></button>
+                        </a>
+                        <a href="{{ path('form_contrat', { 'id': user.id, 'id_contrat': contrat.id }) }}">
+                            <button class="button-edit" title="Modifier"><img src="{{ asset('img/edit-100.png') }}" alt="Modifier"></button>
+                        </a>
+                        <a href="{{ path('delete_contrat', { 'id_contrat': contrat.id, 'id': user.id }) }}">
+                            <button class="button-delete" title="Supprimer" onclick="return confirm('Etes-vous sûr ?');"><img src="{{ asset('img/delete-100.png') }}" alt="Supprimer"></button>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('form_contrat', { 'id': user.id, 'id_contrat': '-1' }) }}">
+                            <button class="btn-add-contrat" title="Modifier">Ajouter</button>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Thématique</td>
                 <td>
                     {% if contrat %}
                         <a href="{{ path('display_contrat', { 'id_contrat': contrat.id, 'id': user.id }) }}">
