@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Compte;
-use App\Entity\Workon;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -24,9 +22,14 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
+
 use App\Entity\Personne;
 use App\Entity\Contrat;
 use App\Entity\Activite;
+use App\Entity\Compte;
+use App\Entity\Workon;
+use App\Entity\Tutelle;
+
 
 /**
  * @isGranted("ROLE_USER")
@@ -96,16 +99,17 @@ class FrontController extends AbstractController
      */
     public function formUser(Request $request, ObjectManager $om, $id)
     {   
-        
+        $em = $this->getDoctrine()->getEntityManager();
         if($id == -1){
             $user = new Personne();
         }
         elseif($id != -1) {
-            $user = $this->getDoctrine()->getRepository('App:Personne')->findOneBy(['id' => $id]);
+            $user = $em->getRepository(Personne::Class)->findOneBy(['id' => $id]);
         }
 
         // Récuperer table tutelle
-        $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        $tut = new Tutelle();
+        $tutelles = $em->getRepository(Tutelle::class)->findAll();
         $select_tutelles = [];
         
         foreach($tutelles as $tutelle){
@@ -113,20 +117,20 @@ class FrontController extends AbstractController
         }
 
         // Récupérer table office
-        $offices = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
-        $select_offices = [];
+        // $offices = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        // $select_offices = [];
         
-        foreach($offices as $office){
-            $select_offices[$office->getLabel()] = $office->getId();
-        }
+        // foreach($offices as $office){
+        //     $select_offices[$office->getLabel()] = $office->getId();
+        // }
 
         // Récupérer table building
-        $buildings = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
-        $select_buildings = [];
-        
-        foreach($buildings as $building){
-            $select_buildings[$building->getLabel()] = $building->getId();
-        }
+            // $buildings = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+            // $select_buildings = [];
+            
+            // foreach($buildings as $building){
+            //     $select_buildings[$building->getLabel()] = $building->getId();
+            // }
 
         // Création du formulaire
         $form_personne = $this->createFormBuilder($user)
@@ -157,27 +161,32 @@ class FrontController extends AbstractController
                     'Madame' => 'Madame'
                 ],
             ])
-            ->add('office', ChoiceType::class, [
-                'choices'  => $select_offices,
-            ])
-            ->add('building', ChoiceType::class, [
-                'choices'  => $select_buildings,
-            ])
+            ->add('office', ChoiceType::class, 
+            // [
+            //     'choices'  => $select_offices,
+            // ]
+            )
+            ->add('building', ChoiceType::class, 
+            // [
+            //     'choices'  => $select_buildings,
+            // ]
+            )
             ->add('tutelle', ChoiceType::class, [
                 'choices' => $select_tutelles,
             ])
             ->getForm();
 
         $form_personne->handleRequest($request);
-
+        $tutelle_value = $form_personne['tutelle']->getData();
         if($form_personne->isSubmitted() && $form_personne->isValid())
-        {
+        {   
+            $user->setTutelle($tutelles[$tutelle_value]);
             $om->persist($user);
             $om->flush();
 
             return $this->redirectToRoute('annuaire');
         }
-        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id, 'tutelles' => $tutelles]);
+        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id, 'tutelle' => $tutelles]);
     }
 
     /**

@@ -96,8 +96,8 @@ class Personne
     private $building;
 
     /**
-    * @ORM\ManyToOne(targetEntity=Tutelle::class)
-    * @ORM\JoinColumn(name="tutelle", referencedColumnName="id")
+    * @ORM\ManyToOne(targetEntity=Tutelle::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="tutelle", referencedColumnName="id", nullable=true, onDelete="CASCADE")
     */
     private $tutelle;
 
