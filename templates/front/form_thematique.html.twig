@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thématique
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a class="lien-retour" href="{{ path('annuaire') }}">Retour</a>
+    </div>
+    <div class="form-modify">
+        <h1>Ajouter Thématique</h1>
+        <label for="select-themathique">Sélectionner une thématique: </label>
+        <select name="thematique" class="select-role">
+            {% for thematique in thematiques %}
+            <option> {{ thematique.name }}</option>
+            {% endfor %}
+        </select>
+        <div>
+            <input type="submit" name="save" value="Sauvegarder"/>
+        </div>
+    </div>
+{% endblock %}

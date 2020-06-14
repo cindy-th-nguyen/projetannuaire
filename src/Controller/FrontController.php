@@ -232,6 +232,21 @@ class FrontController extends AbstractController
          $type_contrat = $this->getDoctrine()->getRepository('App:Typeofcontrat')->find($contrat->getType($id_contrat));
          return $this->render('front/display_contrat.html.twig', ['contrat' => $contrat, 'user' => $user, 'type' => $type_contrat]);
      }
+    
+    /**
+     * @Route("/form_thematique/", name="form_thematique")
+     * @param Request $request
+     * @param ObjectManager $om
+     * @param $id
+     * @return mixed
+     */
+    public function form_thematique()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $thematiques = $em->getRepository('App:Thematique')->findall();
+
+        return $this->render('front/form_thematique.html.twig', ['thematiques' => $thematiques]);
+    }
 
     /**
      * @Route("/form_contrat/{id}/{id_contrat}", name="form_contrat")
