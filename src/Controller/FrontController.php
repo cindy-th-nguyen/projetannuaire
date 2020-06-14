@@ -38,11 +38,9 @@ class FrontController extends AbstractController
      */
     public function index()
     {
-        $users = $this->getDoctrine()->getRepository('App:Personne')->findAll();
-        foreach ($users as $user) {
-            $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findBy(['id' => $user->getId()]);
-        }
-        return $this->render('front/index.html.twig', [ 'users' => $users, 'tutelles' => $tutelles ]);
+        $em = $this->getDoctrine()->getEntityManager();
+        $users = $em->getRepository('App:Personne')->findAll();
+        return $this->render('front/index.html.twig', [ 'users' => $users]);
     }
 
     /**
@@ -102,16 +100,16 @@ class FrontController extends AbstractController
         if($id == -1){
             $user = new Personne();
         }
-        else {
+        elseif($id != -1) {
             $user = $this->getDoctrine()->getRepository('App:Personne')->findOneBy(['id' => $id]);
         }
 
         // Récuperer table tutelle
         $tutelles = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
-        $select_tutelles= [];
+        $select_tutelles = [];
         
         foreach($tutelles as $tutelle){
-            $select_tutelles[$tutelle->getName()] = $tutelle->getId();
+            $select_tutelles[$tutelle->getLabel()] = $tutelle->getId();
         }
 
         // Récupérer table office
@@ -119,7 +117,7 @@ class FrontController extends AbstractController
         $select_offices = [];
         
         foreach($offices as $office){
-            $select_offices[$office->getName()] = $office->getId();
+            $select_offices[$office->getLabel()] = $office->getId();
         }
 
         // Récupérer table building
@@ -127,7 +125,7 @@ class FrontController extends AbstractController
         $select_buildings = [];
         
         foreach($buildings as $building){
-            $select_buildings[$building->getName()] = $building->getId();
+            $select_buildings[$building->getLabel()] = $building->getId();
         }
 
         // Création du formulaire
@@ -425,7 +423,6 @@ class FrontController extends AbstractController
             }
 
         }
-
         return $this->render('front/export.html.twig', ['users'=>$users]);
     }
 

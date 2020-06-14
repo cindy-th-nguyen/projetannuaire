@@ -20,22 +20,42 @@ class Tutelle
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private $label;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $alias;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLabel(): ?string
     {
-        return $this->name;
+        return $this->label;
     }
 
-    public function setName(?string $name): self
+    public function setName(?string $label): self
     {
-        $this->name = $name;
-
+        $this->label = $label;
         return $this;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): self
+    {
+        $this->alias = $alias;
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->label;
     }
 }

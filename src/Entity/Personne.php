@@ -38,7 +38,7 @@ class Personne
      */
     private $birthdate;
 
-        /**
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Regex(
      *     pattern="/^[A-Za-zéèêë\-]+$/"
@@ -96,8 +96,9 @@ class Personne
     private $building;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\ManyToOne(targetEntity=Tutelle::class)
+    * @ORM\JoinColumn(name="tutelle", referencedColumnName="id")
+    */
     private $tutelle;
 
     /**
