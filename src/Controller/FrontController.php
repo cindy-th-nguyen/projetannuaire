@@ -4,16 +4,9 @@ namespace App\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-// use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
+
+
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -21,7 +14,17 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+
+use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 use App\Entity\Personne;
@@ -117,20 +120,20 @@ class FrontController extends AbstractController
         }
 
         // Récupérer table office
-        // $offices = $this->getDoctrine()->getRepository('App:Office')->findAll();
-        // $select_offices = [];
+        $offices = $this->getDoctrine()->getRepository('App:Office')->findAll();
+        $select_offices = [];
         
-        // foreach($offices as $office){
-        //     $select_offices[$office->getLabel()] = $office->getId();
-        // }
+        foreach($offices as $office){
+            $select_offices[$office->getLabel()] = $office->getId();
+        }
 
         // Récupérer table building
-        // $buildings = $this->getDoctrine()->getRepository('App:Batiment')->findAll();
-        // $select_buildings = [];
+        $buildings = $this->getDoctrine()->getRepository('App:Building')->findAll();
+        $select_buildings = [];
             
-        // foreach($buildings as $building){
-        //     $select_buildings[$building->getLabel()] = $building->getId();
-        // }
+        foreach($buildings as $building){
+            $select_buildings[$building->getLabel()] = $building->getId();
+        }
 
         // Création du formulaire
         $form_personne = $this->createFormBuilder($user)
@@ -173,12 +176,12 @@ class FrontController extends AbstractController
                     'Madame' => 'Madame'
                 ],
             ])
-            // ->add('office', ChoiceType::class, [
-            //     'choices'  => $select_offices,
-            // ])
-            // ->add('building', ChoiceType::class, [
-            //     'choices'  => $select_buildings,
-            // ])
+            ->add('office', ChoiceType::class, [
+                'choices'  => $select_offices,
+            ])
+            ->add('building', ChoiceType::class, [
+                'choices'  => $select_buildings,
+            ])
             ->add('tutelle', ChoiceType::class, [
                 'choices' => $select_tutelles,
             ])
@@ -186,8 +189,8 @@ class FrontController extends AbstractController
 
         $form_personne->handleRequest($request);
         $tutelle_value = $form_personne['tutelle']->getData();
-        // $building_value = $form_personne['building']->getData();
-        // $office_value = $form_personne['office']->getData();
+        $building_value = $form_personne['building']->getData();
+        $office_value = $form_personne['office']->getData();
 
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
@@ -205,8 +208,8 @@ class FrontController extends AbstractController
             
             $user->setTutelle($tutelles[$tutelle_value]);
            
-            // $user->setBuilding($buildings[$building_value]);
-            // $user->setOffice($offices[$office_value]);
+            $user->setBuilding($buildings[$building_value]);
+            $user->setOffice($offices[$office_value]);
 
             $om->persist($user);
             $om->flush();

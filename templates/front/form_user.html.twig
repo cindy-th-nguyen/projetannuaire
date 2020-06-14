@@ -48,7 +48,12 @@
         <div class="input-text">
             {{ form_row(form_personne.mobilephone, {'label': 'Tél. mobile'}) }}
         </div>
-        
+        <div class="input-text">
+            {{ form_row(form_personne.building, {'label': 'Bâtiment', 'attr' : { 'class': 'select-tutelle'}}) }}
+        </div>
+        <div class="input-text">
+            {{ form_row(form_personne.office, {'label': 'Bureau', 'attr' : { 'class': 'select-tutelle'}}) }}
+        </div>
         <div class="input-text">
             {{ form_row(form_personne.tutelle, {'label': 'Tutelle', 'attr' : { 'class': 'select-tutelle'}}) }}
         </div>

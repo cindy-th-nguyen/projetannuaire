@@ -81,8 +81,9 @@ class Personne
     private $img;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    * @ORM\ManyToOne(targetEntity=Office::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="office", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+    */
     private $office;
 
     /**
@@ -91,7 +92,8 @@ class Personne
     private $nationality;
 
     /**
-    * @ORM\Column(type="string", length=255, nullable=true)
+    * @ORM\ManyToOne(targetEntity=Building::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="building", referencedColumnName="id", nullable=true, onDelete="CASCADE")
     */
     private $building;
 

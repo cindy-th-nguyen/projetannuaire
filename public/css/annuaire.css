@@ -376,6 +376,7 @@ body {
     cursor: pointer;
 }
 
+
 .btn-modify-user {
     width: 70%;
     background-image: linear-gradient(120deg, #ffa444 0%, #fc983c 100%);
@@ -514,7 +515,7 @@ body {
     filter: opacity(.8);
 }
 
-.table-user button img {
+.btn-see-user img {
     padding: 4px 0 1px 0;
     width: 14px;
     height: 14px;
