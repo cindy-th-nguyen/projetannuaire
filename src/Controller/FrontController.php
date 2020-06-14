@@ -192,16 +192,19 @@ class FrontController extends AbstractController
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
             $file = $form_personne->get('img')->getData();
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.'. $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename
-            );
+
+            if($file != null) {
+                $uploads_directory = $this->getParameter('uploads_directory');
+                $filename = md5(uniqid()) . '.'. $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                $user->setImg($filename);
+            }
             
             $user->setTutelle($tutelles[$tutelle_value]);
-        
-            $user->setImg($filename);
+           
             // $user->setBuilding($buildings[$building_value]);
             // $user->setOffice($offices[$office_value]);
 
