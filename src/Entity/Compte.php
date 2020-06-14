@@ -53,6 +53,12 @@ class Compte implements UserInterface
      */
     private $role;
 
+    /**
+    * @ORM\ManyToOne(targetEntity=Groupinfo::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="groupinfo", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+    */
+    private $groupinfo;
+
     public function getId()
     {
         return $this->id;
@@ -140,6 +146,16 @@ class Compte implements UserInterface
         $this->activated = $actif;
     }
 
+    public function getGroupinfo()
+    {
+        return $this->groupinfo;
+    }
+
+    public function setGroupinfo($groupinfo)
+    {
+        $this->groupinfo = $groupinfo;
+        return $this->groupinfo;
+    }
 
     /**
      * Returns the roles granted to the user.
@@ -192,4 +208,5 @@ class Compte implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+    
 }

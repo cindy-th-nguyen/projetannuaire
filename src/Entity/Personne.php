@@ -71,8 +71,8 @@ class Personne
     private $mailGeeps;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
     private $civilite;
 
     /**
@@ -91,8 +91,8 @@ class Personne
     private $nationality;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
     private $building;
 
     /**
@@ -102,18 +102,18 @@ class Personne
     private $tutelle;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    * @ORM\Column(type="boolean", nullable=true)
+    */
     private $ingeeps;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    * @ORM\Column(type="datetime", nullable=true)
+    */
     private $arrivaldate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    * @ORM\Column(type="datetime", nullable=true)
+    */
     private $departuredate;
 
     /**

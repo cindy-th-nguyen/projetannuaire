@@ -29,7 +29,7 @@ use App\Entity\Activite;
 use App\Entity\Compte;
 use App\Entity\Workon;
 use App\Entity\Tutelle;
-
+use App\Entity\Groupinfo;
 
 /**
  * @isGranted("ROLE_USER")
@@ -108,7 +108,6 @@ class FrontController extends AbstractController
         }
 
         // Récuperer table tutelle
-        $tut = new Tutelle();
         $tutelles = $em->getRepository(Tutelle::class)->findAll();
         $select_tutelles = [];
         
@@ -117,7 +116,7 @@ class FrontController extends AbstractController
         }
 
         // Récupérer table office
-        // $offices = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
+        // $offices = $this->getDoctrine()->getRepository('App:Office')->findAll();
         // $select_offices = [];
         
         // foreach($offices as $office){
@@ -125,12 +124,12 @@ class FrontController extends AbstractController
         // }
 
         // Récupérer table building
-            // $buildings = $this->getDoctrine()->getRepository('App:Tutelle')->findAll();
-            // $select_buildings = [];
+        // $buildings = $this->getDoctrine()->getRepository('App:Batiment')->findAll();
+        // $select_buildings = [];
             
-            // foreach($buildings as $building){
-            //     $select_buildings[$building->getLabel()] = $building->getId();
-            // }
+        // foreach($buildings as $building){
+        //     $select_buildings[$building->getLabel()] = $building->getId();
+        // }
 
         // Création du formulaire
         $form_personne = $this->createFormBuilder($user)
@@ -161,26 +160,27 @@ class FrontController extends AbstractController
                     'Madame' => 'Madame'
                 ],
             ])
-            ->add('office', ChoiceType::class, 
-            // [
-            //     'choices'  => $select_offices,
-            // ]
-            )
-            ->add('building', ChoiceType::class, 
-            // [
-            //     'choices'  => $select_buildings,
-            // ]
-            )
-            ->add('tutelle', ChoiceType::class, [
-                'choices' => $select_tutelles,
+            ->add('office', ChoiceType::class, [
+                'choices'  => $select_offices,
             ])
+            // ->add('building', ChoiceType::class, [
+            //     'choices'  => $select_buildings,
+            // ])
+            // ->add('tutelle', ChoiceType::class, [
+            //     'choices' => $select_tutelles,
+            // ])
             ->getForm();
 
         $form_personne->handleRequest($request);
         $tutelle_value = $form_personne['tutelle']->getData();
+        // $building_value = $form_personne['building']->getData();
+        // $office_value = $form_personne['office']->getData();
+
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
             $user->setTutelle($tutelles[$tutelle_value]);
+            // $user->setBuilding($buildings[$building_value]);
+            // $user->setOffice($offices[$office_value]);
             $om->persist($user);
             $om->flush();
 
@@ -600,10 +600,12 @@ class FrontController extends AbstractController
      */
     public function seeCompte($id_compte, $id)
     {
-        $compte = $this->getDoctrine()->getRepository('App:Compte')->find($id_compte);
+        $em = $this->getDoctrine()->getEntityManager();
+        $compte = $em->getRepository('App:Compte')->find($id_compte);
         $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
         $role = $this->getDoctrine()->getRepository('App:Role')->find($compte->getRole());
-        return $this->render('front/display_compte.html.twig', [ 'user'=>$user, 'compte'=>$compte, 'role'=>$role]);
+        $groupinfo = $em->getRepository(Groupinfo::class)->find($compte->getGroupinfo());
+        return $this->render('front/display_compte.html.twig', [ 'user'=>$user, 'compte'=>$compte, 'role'=>$role, 'groupinfo'=>$groupinfo ]);
     }
 
     /**
@@ -616,6 +618,7 @@ class FrontController extends AbstractController
      */
     public function formCompte(Request $request, ObjectManager $om, $id, $id_compte)
     {
+        $em = $this->getDoctrine()->getEntityManager();
         if($id_compte == -1)   // Ajout
         {
             $compte = new Compte();
@@ -624,20 +627,23 @@ class FrontController extends AbstractController
         {
             $compte = $this->getDoctrine()->getRepository('App:Compte')->findOneBy(['id' => $id_compte]);
         }
-
-        $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
-
+        
+        $user = $em->getRepository('App:Personne')->find($id);
+        $group_infos = $em->getRepository(Groupinfo::class)->findAll();
+        $select_groupinfo = [];
+        
+        foreach($group_infos as $group_info){
+            $select_groupinfo[$group_info->getLabel()] = $group_info->getId();
+        }
+        
         // Création du formulaire
         $form_compte = $this->createFormBuilder($compte)
             ->add('login')
             ->add('password')
-            ->add('home_directory', ChoiceType::class, [
-                'choices'  => [
-                    'Permanent' => 'Permanent',
-                    'Non permanent' => 'Permanent'
-                ],
-            ])
             ->add('role')
+            ->add('groupinfo', ChoiceType::class, [
+                'choices' => $select_groupinfo,
+            ])
             ->add('startdate', DateType::class, [
                 'years' => range(date('Y') -50, date('Y'))
             ])
@@ -647,19 +653,20 @@ class FrontController extends AbstractController
             ->getForm();
 
         $form_compte->handleRequest($request);
-
+        $group_info_value = $form_compte['groupinfo']->getData();
         if($form_compte->isSubmitted() && $form_compte->isValid())
         {
+            $compte->setGroupInfo($group_infos[$group_info_value - 1]);
             $user->setCompte($compte);
             $om->persist($compte);
             $om->flush();
 
             return $this->redirectToRoute('display_personne', ['id' => $id]);
         }
-        return $this->render('front/form_compte.html.twig', ['form_compte' => $form_compte->createView(), 'user' => $user]);
+        return $this->render('front/form_compte.html.twig', ['form_compte' => $form_compte->createView(), 'user' => $user, 'groupinfo' => $group_infos]);
     }
 
-        /**
+    /**
      * @Route("/active_compte/{id_compte}/{id}", name="active_compte")
      * @param Request $request
      * @param ObjectManager $om

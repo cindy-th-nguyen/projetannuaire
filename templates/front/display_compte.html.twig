@@ -9,8 +9,7 @@
         <a class="lien-retour" href="{{ path('display_personne', { 'id': user.id }) }}">Retour</a>
     </div>
     <div class="form-modify">
-        <h1>Compte de
-            {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
+        <h1>Compte de {{ user.firstname }}&nbsp;{{ user.lastname }}</h1>
         <table class="table-user">
             <tr>
                 <td>Login</td>
@@ -21,11 +20,11 @@
                 <td>{{ role.name }}</td>
             </tr>
             <tr>
-                <td>Type d'intervenant</td></td>
+                <td>Type d'intervenant</td>
+                <td>{{ groupinfo.label }} ({{ groupinfo.code}})</td>
             </tr>
             <tr>
-                <td>Début d'activation
-                </td>
+                <td>Début d'activation</td>
                 <td>
                     {% if compte.startdate != null %}
                         {{ compte.startdate|date('d/m/Y') }}

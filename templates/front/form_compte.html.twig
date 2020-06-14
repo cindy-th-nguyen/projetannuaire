@@ -23,7 +23,7 @@
             {{ form_row(form_compte.role, {'label': 'Rôle', 'attr': { 'class': 'select-role' }}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_compte.home_directory, {'label': 'Type d\'intervenant (Permanent/Non permanent)', 'attr': { 'class': 'select-role' }}) }}
+            {{ form_row(form_compte.groupinfo, {'label': 'Type d\'intervenant', 'attr': { 'class': 'select-role' }}) }}
     </div>
     <div class="input-text">
         {{ form_row(form_compte.startdate, {'label': 'Début d\'activation'}) }}
@@ -36,5 +36,4 @@
         </div>
         {{ form_end(form_compte) }}
     </div>
-
 {% endblock %}

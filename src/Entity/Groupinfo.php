@@ -39,7 +39,6 @@ class Groupinfo
     public function setLabel(?string $label): self
     {
         $this->label = $label;
-
         return $this;
     }
 
@@ -51,7 +50,10 @@ class Groupinfo
     public function setCode(?int $code): self
     {
         $this->code = $code;
-
         return $this;
+    }
+
+    public function __toString(){
+        return $this->getLabel();
     }
 }
