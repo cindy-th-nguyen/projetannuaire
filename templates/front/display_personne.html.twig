@@ -13,7 +13,11 @@
         <table class="table-user">
             <tr>
                 <td>Photo</td>
-                <td><img src='{{ user.firstname }}'></img></td>
+                {% if user.img == null %} 
+                <td id='user-img'><img src="../../../img/default-user.png"></img></td>
+                {% elseif user.img != null %}
+                <td id='user-img'><img src="../../../uploads/{{ user.img }}"></img></td>
+                {% endif %}
             </tr>
             <tr>
                 <td>Civilité</td>

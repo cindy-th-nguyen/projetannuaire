@@ -5,7 +5,7 @@ namespace App\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\File;
+// use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 
 use App\Entity\Personne;
@@ -152,7 +153,19 @@ class FrontController extends AbstractController
                 'years' => range(1, 40),
             ])
             ->add('img', FileType::class, [
-                'required' => false
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg'
+                        ],
+                        'mimeTypesMessage' => 'Veuillez entrer une image dans un format valide',
+                    ])
+                ],
             ])
             ->add('civilite', ChoiceType::class, [
                 'choices'  => [
@@ -160,15 +173,15 @@ class FrontController extends AbstractController
                     'Madame' => 'Madame'
                 ],
             ])
-            ->add('office', ChoiceType::class, [
-                'choices'  => $select_offices,
-            ])
+            // ->add('office', ChoiceType::class, [
+            //     'choices'  => $select_offices,
+            // ])
             // ->add('building', ChoiceType::class, [
             //     'choices'  => $select_buildings,
             // ])
-            // ->add('tutelle', ChoiceType::class, [
-            //     'choices' => $select_tutelles,
-            // ])
+            ->add('tutelle', ChoiceType::class, [
+                'choices' => $select_tutelles,
+            ])
             ->getForm();
 
         $form_personne->handleRequest($request);
@@ -178,9 +191,20 @@ class FrontController extends AbstractController
 
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
+            $file = $form_personne->get('img')->getData();
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.'. $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            
             $user->setTutelle($tutelles[$tutelle_value]);
+        
+            $user->setImg($filename);
             // $user->setBuilding($buildings[$building_value]);
             // $user->setOffice($offices[$office_value]);
+
             $om->persist($user);
             $om->flush();
 
@@ -635,7 +659,7 @@ class FrontController extends AbstractController
         foreach($group_infos as $group_info){
             $select_groupinfo[$group_info->getLabel()] = $group_info->getId();
         }
-        
+
         // Création du formulaire
         $form_compte = $this->createFormBuilder($compte)
             ->add('login')

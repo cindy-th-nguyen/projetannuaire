@@ -42,7 +42,11 @@
                 <tbody>
                     {% for user in users %}
                         <tr>
-                            <td id='user-img'><img src="../../../img/{{ user.img }}"></img></td>
+                            {% if user.img == null %} 
+                            <td id='user-img'><img src="../../../img/default-user.png"></img></td>
+                            {% elseif user.img != null %}
+                            <td id='user-img'><img src="../../../uploads/{{ user.img }}"></img></td>
+                            {% endif %}
                             <td>{{ user.civilite }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.firstname }}</td>
