@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -390,7 +392,7 @@ class FrontController extends AbstractController
      * @Route("/export", name="export")
      * @return mixed
      */
-    public function exportCSV(Request $request)
+    public function export(Request $request)
     {
         $users = $this->getDoctrine()->getRepository('App:Personne')->findall();
         dump("aaaaa");
@@ -411,7 +413,30 @@ class FrontController extends AbstractController
             dump(isset($_POST['exportType']));
             if(isset($_POST['exportType']) &&  (strcmp($_POST['exportType'], 'CSV') !== 0)){
 
+                $pdfOptions = new Options();
+                $pdfOptions->set('defaultFont', 'Arial');
+                $pdfOptions->set('isRemoteEnabled', true);
+                $pdfOptions->set('isHtml5ParserEnabled', true);
 
+                // Instantiate Dompdf with our options
+                $dompdf = new Dompdf($pdfOptions);
+
+                // Retrieve the HTML generated in our twig file
+                $html = $this->renderView('front/pdf_personne.html.twig', ['users'=>$selectedUsers]);
+
+                // Load HTML to Dompdf
+                $dompdf->loadHtml($html);
+
+                // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                $dompdf->setPaper('A3', 'landscape');
+
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                // Output the generated PDF to Browser (inline view)
+                $dompdf->stream("export_" . date("d_m_Y") . ".pdf", [
+                    "Attachment" => true
+                ]);
 
 
             }else{

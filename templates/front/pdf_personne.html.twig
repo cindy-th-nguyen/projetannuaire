@@ -1,0 +1,49 @@
+{% block body %}
+    <script>
+        $(document).ready(function () {
+            $('#annuaire').DataTable({
+                "responsive": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                }
+            });
+        });
+    </script>
+
+    <div class="tab-block">
+        <div class="annuaire-container">
+            <table class="table-annuaire cell-border" id="annuaire">
+                <thead>
+                <tr>
+                    <th>Civilité</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Mail</th>
+                    <th>Tél. fixe</th>
+                    <th>Tél. mobile</th>
+                    <th>Bureau</th>
+                    <th>Bâtiment</th>
+                    <th>Tutelle </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.civilite }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.mailGeeps }}</td>
+                        <td>{{ user.homephone }}</td>
+                        <td>{{ user.mobilephone }}</td>
+                        <td>{{ user.office }}</td>
+                        <td>{{ user.building }}</td>
+                        <td>{{ user.tutelle }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
