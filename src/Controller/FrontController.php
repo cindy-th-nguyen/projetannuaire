@@ -36,6 +36,7 @@ use App\Entity\Compte;
 use App\Entity\Workon;
 use App\Entity\Tutelle;
 use App\Entity\Groupinfo;
+use App\Entity\Civilite;
 
 /**
  * @isGranted("ROLE_USER")
@@ -113,6 +114,14 @@ class FrontController extends AbstractController
             $user = $em->getRepository(Personne::Class)->findOneBy(['id' => $id]);
         }
 
+        // Récuperer table civilite
+        $civilites = $em->getRepository(Civilite::class)->findAll();
+        $select_civilites = [];
+        
+        foreach($civilites as $civilite){
+            $select_civilites[$civilite->getLabel()] = $civilite->getId();
+        }
+
         // Récuperer table tutelle
         $tutelles = $em->getRepository(Tutelle::class)->findAll();
         $select_tutelles = [];
@@ -173,10 +182,7 @@ class FrontController extends AbstractController
                 ],
             ])
             ->add('civilite', ChoiceType::class, [
-                'choices'  => [
-                    'Monsieur' => 'Monsieur',
-                    'Madame' => 'Madame'
-                ],
+                'choices'  => $select_civilites
             ])
             ->add('office', ChoiceType::class, [
                 'choices'  => $select_offices,
@@ -193,6 +199,7 @@ class FrontController extends AbstractController
         $tutelle_value = $form_personne['tutelle']->getData();
         $building_value = $form_personne['building']->getData();
         $office_value = $form_personne['office']->getData();
+        $civilite_value = $form_personne['civilite']->getData();
 
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
@@ -209,7 +216,7 @@ class FrontController extends AbstractController
             }
             
             $user->setTutelle($tutelles[$tutelle_value]);
-           
+            $user->setTutelle($civiltes[$civilite_value]);
             $user->setBuilding($buildings[$building_value]);
             $user->setOffice($offices[$office_value]);
 
