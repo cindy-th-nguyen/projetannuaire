@@ -72,7 +72,7 @@ class Personne
 
     /**
     * @ORM\ManyToOne(targetEntity=Civilite::class, cascade={"persist"})
-    * @ORM\JoinColumn(name="tutelle", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+    * @ORM\JoinColumn(name="civilite", referencedColumnName="id", nullable=true, onDelete="CASCADE")
     */
     private $civilite;
 

@@ -40,7 +40,7 @@ class Civilite
     }
 
     public function __toString(){
-        return $this->label;
+        return $this->getLabel();
         //return $this->getLabel();
     }
 }
