@@ -189,7 +189,7 @@ class FrontController extends AbstractController
                             'image/jpeg',
                             'image/jpg'
                         ],
-                        'mimeTypesMessage' => 'Veuillez entrer une image dans un format valide',
+                        'mimeTypesMessage' => "Extension d'image invalide !",
                     ])
                 ],
             ])
