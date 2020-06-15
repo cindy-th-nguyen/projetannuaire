@@ -108,6 +108,7 @@ class FrontController extends AbstractController
     public function formUser(Request $request, ObjectManager $om, $id)
     {   
         $em = $this->getDoctrine()->getEntityManager();
+
         if($id == -1){
             $user = new Personne();
         }
@@ -229,17 +230,22 @@ class FrontController extends AbstractController
             }
             
             $user->setTutelle($tutelles[$tutelle_value]);
-            $user->setTutelle($civiltes[$civilite_value]);
+            $user->setCivilite($civilites[$civilite_value]);
             $user->setBuilding($buildings[$building_value]);
             $user->setOffice($offices[$office_value]);
             $user->setNationality($countries[$country_value]);
-
             $om->persist($user);
             $om->flush();
 
             return $this->redirectToRoute('annuaire');
         }
-        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id, 'tutelle' => $tutelles]);
+        return $this->render('front/form_user.html.twig', ['form_personne' => 
+            $form_personne->createView(), 
+            'id' => $id, 
+            'tutelle' => $tutelles, 
+            'civilite' => $civilites,
+            'nationality' => $countries
+            ]);
     }
 
     /**

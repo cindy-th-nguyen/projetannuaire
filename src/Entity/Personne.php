@@ -71,7 +71,7 @@ class Personne
     private $mailGeeps;
 
     /**
-    * @ORM\ManyToOne(targetEntity=Tutelle::class, cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity=Civilite::class, cascade={"persist"})
     * @ORM\JoinColumn(name="tutelle", referencedColumnName="id", nullable=true, onDelete="CASCADE")
     */
     private $civilite;
