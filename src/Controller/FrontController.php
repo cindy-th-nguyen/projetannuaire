@@ -37,6 +37,7 @@ use App\Entity\Workon;
 use App\Entity\Tutelle;
 use App\Entity\Groupinfo;
 use App\Entity\Civilite;
+use App\Entity\Pays;
 
 /**
  * @isGranted("ROLE_USER")
@@ -122,6 +123,14 @@ class FrontController extends AbstractController
             $select_civilites[$civilite->getLabel()] = $civilite->getId();
         }
 
+        // Récuperer table pays
+        $countries = $em->getRepository(Pays::class)->findAll();
+        $select_countries = [];
+        
+        foreach($countries as $country){
+            $select_countries[$country->getLabel()] = $country->getId();
+        }
+
         // Récuperer table tutelle
         $tutelles = $em->getRepository(Tutelle::class)->findAll();
         $select_tutelles = [];
@@ -159,7 +168,9 @@ class FrontController extends AbstractController
             ->add('homephone')
             ->add('mobilephone')
             ->add('ingeeps')
-            ->add('nationality')
+            ->add('nationality', ChoiceType::class, [
+                'choices'  => $select_countries
+            ])
             ->add('arrivaldate', DateType::class, [
                 'years' => range(date('Y') -50, date('Y'))
             ])
@@ -196,10 +207,12 @@ class FrontController extends AbstractController
             ->getForm();
 
         $form_personne->handleRequest($request);
+
         $tutelle_value = $form_personne['tutelle']->getData();
         $building_value = $form_personne['building']->getData();
         $office_value = $form_personne['office']->getData();
         $civilite_value = $form_personne['civilite']->getData();
+        $country_value = $form_personne['nationality']->getData();
 
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {   
@@ -219,6 +232,7 @@ class FrontController extends AbstractController
             $user->setTutelle($civiltes[$civilite_value]);
             $user->setBuilding($buildings[$building_value]);
             $user->setOffice($offices[$office_value]);
+            $user->setNationality($countries[$country_value]);
 
             $om->persist($user);
             $om->flush();

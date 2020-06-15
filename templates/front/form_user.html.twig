@@ -31,7 +31,7 @@
             {{ form_row(form_personne.birthdate, {'label': 'Date de naissance'}) }}
         </div>
         <div class="input-text">
-            {{ form_row(form_personne.nationality, {'label': 'Nationalité'}) }}
+            {{ form_row(form_personne.nationality, {'label': 'Nationalité', 'attr' : { 'class': 'select-tutelle'}}) }}
         </div>
         <div class="input-text">
             {{ form_row(form_personne.placebirth, {'label': 'Lieu de naissance'}) }}

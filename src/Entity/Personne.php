@@ -88,8 +88,10 @@ class Personne
     private $office;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\ManyToOne(targetEntity=Pays::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="nationality", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+    * @ORM\OrderBy({"label" = "ASC"})
+    */
     private $nationality;
 
     /**
