@@ -71,8 +71,9 @@ class Personne
     private $mailGeeps;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\ManyToOne(targetEntity=Civilite::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="civilite", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+    */
     private $civilite;
 
     /**
@@ -87,8 +88,10 @@ class Personne
     private $office;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    * @ORM\ManyToOne(targetEntity=Pays::class, cascade={"persist"})
+    * @ORM\JoinColumn(name="nationality", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+    * @ORM\OrderBy({"label" = "ASC"})
+    */
     private $nationality;
 
     /**
