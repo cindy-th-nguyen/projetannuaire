@@ -141,7 +141,6 @@ class ActivityController extends AbstractController
         $workon = new Workon();
 
         $select_activities = [];
-
         /* Pour chaque activité on crée le tableau que l'on va passer
            en argument à 'choices' pour le select */
         foreach($activites as $activity)

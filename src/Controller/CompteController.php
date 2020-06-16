@@ -50,7 +50,7 @@ class CompteController extends AbstractController
      * @param $id_compte
      * @return mixed
      */
-    public function formCompte(Request $request, ObjectManager $om, $id, $id_compte,UserPasswordEncoderInterface $encoder)
+    public function formCompte(Request $request, ObjectManager $om, $id, $id_compte, UserPasswordEncoderInterface $encoder)
     {
         if($id_compte == -1)   // Ajout
         {

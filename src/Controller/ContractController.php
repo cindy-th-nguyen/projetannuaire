@@ -28,19 +28,20 @@ use App\Entity\Activite;
  */
 class ContractController extends AbstractController
 {
- /**
+
+    /**
      * @Route("/display_contrat/{id_contrat}/{id}", name="display_contrat")
      * @param $id_contrat
      * @param $id
      * @return mixed
      */
-     public function seeContrat($id_contrat, $id)
-     {
-         $contrat = $this->getDoctrine()->getRepository('App:Contrat')->find($id_contrat);
-         $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
-         $type_contrat = $this->getDoctrine()->getRepository('App:Typeofcontrat')->find($contrat->getType($id_contrat));
-         return $this->render('contract/display_contrat.html.twig', ['contrat' => $contrat, 'user' => $user, 'type' => $type_contrat]);
-     }
+    public function seeContrat($id_contrat, $id)
+    {
+        $contrat = $this->getDoctrine()->getRepository('App:Contrat')->find($id_contrat);
+        $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
+        $type_contrat = $this->getDoctrine()->getRepository('App:Typeofcontrat')->find($contrat->getType($id_contrat));
+        return $this->render('contract/display_contrat.html.twig', ['contrat' => $contrat, 'user' => $user, 'type' => $type_contrat]);
+    }
 
     /**
      * @Route("/form_contrat/{id}/{id_contrat}", name="form_contrat")
@@ -105,6 +106,7 @@ class ContractController extends AbstractController
         return $this->render('contract/form_contrat.html.twig', ['form_contrat' => $form_contrat->createView(), 'user' => $user, 'id_contrat' => $id_contrat]);
     }
 
+
     /**
      * @Route("/delete_contrat/{id_contrat}/{id}", name="delete_contrat")
      * @param Request $request
@@ -113,12 +115,12 @@ class ContractController extends AbstractController
      * @param $id
      * @return mixed
      */
-     public function delContrat(Request $request, ObjectManager $om, $id_contrat, $id)
-     {
+    public function delContrat(Request $request, ObjectManager $om, $id_contrat, $id)
+    {
         $em = $this->getDoctrine()->getEntityManager();
         $contrat = $em->getRepository('App:Contrat')->find($id_contrat);
         $em->remove($contrat);
         $em->flush();
-        return $this->redirectToRoute('personne/display_personne', ['id' => $id]);
-     }
+        return $this->redirectToRoute('display_personne', ['id' => $id]);
+    }
 }

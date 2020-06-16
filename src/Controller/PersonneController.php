@@ -21,8 +21,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 use App\Entity\Personne;
+use App\Entity\Civilite;
+use App\Entity\Pays;
+use App\Entity\Tutelle;
 use App\Entity\Contrat;
 use App\Entity\Activite;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @isGranted("ROLE_USER")
@@ -38,8 +42,14 @@ class PersonneController extends AbstractController
     {
         $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
         $contrat = $this->getDoctrine()->getRepository('App:Contrat')->findOneBy(['personne' => $id]);
+        $thematique = $this->getDoctrine()->getRepository('App:Thematique')->findOneBy(['id' => $id]);
         $compte = $this->getDoctrine()->getRepository('App:Compte')->findOneBy(['id' => $user->getCompte()]);
-        return $this->render('personne/display_personne.html.twig', ['user' => $user, 'contrat' => $contrat, 'compte' => $compte]);
+        return $this->render('personne/display_personne.html.twig', [
+            'user' => $user,
+            'contrat' => $contrat,
+            'compte' => $compte,
+            'themathique' => $thematique
+        ]);
     }
 
     /**
@@ -47,24 +57,24 @@ class PersonneController extends AbstractController
      */
     public function delUser($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
-      $personne = $em->getRepository('App:Personne')->find($id);
-      $workon = $em->getRepository('App:Workon')->findBy(array('personne' => $id));
-      $compte = $em->getRepository('App:Compte')->findOneBy(array('id' => $personne->getCompte()));
-      $contrat = $em->getRepository('App:Contrat')->findOneBy(array('personne' => $id));
-      foreach ($workon as $work) {
-        $em->remove($work);
-      }
-      if($compte) {
-          $em->remove($compte);
-      }
-      if($contrat) {
-          $em->remove($contrat);
-      }
-      $em->remove($personne);
-      $em->flush();
+        $em = $this->getDoctrine()->getEntityManager();
+        $personne = $em->getRepository('App:Personne')->find($id);
+        $workon = $em->getRepository('App:Workon')->findBy(array('personne' => $id));
+        $compte = $em->getRepository('App:Compte')->findOneBy(array('id' => $personne->getCompte()));
+        $contrat = $em->getRepository('App:Contrat')->findOneBy(array('personne' => $id));
+        foreach ($workon as $work) {
+            $em->remove($work);
+        }
+        if($compte) {
+            $em->remove($compte);
+        }
+        if($contrat) {
+            $em->remove($contrat);
+        }
+        $em->remove($personne);
+        $em->flush();
 
-      return new RedirectResponse($this->generateUrl('annuaire'));
+        return new RedirectResponse($this->generateUrl('annuaire'));
     }
 
     /**
@@ -75,14 +85,54 @@ class PersonneController extends AbstractController
      * @return mixed
      */
     public function formUser(Request $request, ObjectManager $om, $id)
-    {   
-        if($id == -1)   // Ajout
-        {
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        if($id == -1){
             $user = new Personne();
         }
-        elseif($id != -1)   // modif
-        {
-            $user = $this->getDoctrine()->getRepository('App:Personne')->findOneBy(['id' => $id]);
+        elseif($id != -1) {
+            $user = $em->getRepository(Personne::Class)->findOneBy(['id' => $id]);
+        }
+
+        // Récuperer table civilite
+        $civilites = $em->getRepository(Civilite::class)->findAll();
+        $select_civilites = [];
+
+        foreach($civilites as $civilite){
+            $select_civilites[$civilite->getLabel()] = $civilite->getId();
+        }
+
+        // Récuperer table pays
+        $countries = $em->getRepository(Pays::class)->findAll();
+        $select_countries = [];
+
+        foreach($countries as $country){
+            $select_countries[$country->getLabel()] = $country->getId();
+        }
+
+        // Récuperer table tutelle
+        $tutelles = $em->getRepository(Tutelle::class)->findAll();
+        $select_tutelles = [];
+
+        foreach($tutelles as $tutelle){
+            $select_tutelles[$tutelle->getLabel()] = $tutelle->getId();
+        }
+
+        // Récupérer table office
+        $offices = $this->getDoctrine()->getRepository('App:Office')->findAll();
+        $select_offices = [];
+
+        foreach($offices as $office){
+            $select_offices[$office->getLabel()] = $office->getId();
+        }
+
+        // Récupérer table building
+        $buildings = $this->getDoctrine()->getRepository('App:Building')->findAll();
+        $select_buildings = [];
+
+        foreach($buildings as $building){
+            $select_buildings[$building->getLabel()] = $building->getId();
         }
 
         // Création du formulaire
@@ -98,50 +148,82 @@ class PersonneController extends AbstractController
             ->add('homephone')
             ->add('mobilephone')
             ->add('ingeeps')
-            ->add('nationality')
+            ->add('nationality', ChoiceType::class, [
+                'choices'  => $select_countries
+            ])
             ->add('arrivaldate', DateType::class, [
                 'years' => range(date('Y') -50, date('Y'))
             ])
             ->add('departuredate', DateType::class, [
                 'years' => range(1, 40),
             ])
-            ->add('img', FileType::class, ['required' => false])
-            ->add('civilite', ChoiceType::class, [
-                'choices'  => [
-                    'Monsieur' => 'Monsieur',
-                    'Madame' => 'Madame'
+            ->add('img', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg'
+                        ],
+                        'mimeTypesMessage' => "Extension d'image invalide !",
+                    ])
                 ],
+            ])
+            ->add('civilite', ChoiceType::class, [
+                'choices'  => $select_civilites
             ])
             ->add('office', ChoiceType::class, [
-                'choices'  => [
-                    '1' => '1',
-                    '2' => '2'
-                ],
+                'choices'  => $select_offices,
             ])
             ->add('building', ChoiceType::class, [
-                'choices'  => [
-                    'LRI' => 'LRI',
-                    'Gustave Eiffel' => 'Gust. Eiffel',
-                    'Bâtiment 1' => 'Bat. 1'
-                ],
+                'choices'  => $select_buildings,
             ])
             ->add('tutelle', ChoiceType::class, [
-                'choices'  => [
-                    '0' => '0',
-                ],
+                'choices' => $select_tutelles,
             ])
             ->getForm();
 
         $form_personne->handleRequest($request);
 
+        $tutelle_value = $form_personne['tutelle']->getData();
+        $building_value = $form_personne['building']->getData();
+        $office_value = $form_personne['office']->getData();
+        $civilite_value = $form_personne['civilite']->getData();
+        $country_value = $form_personne['nationality']->getData();
+
         if($form_personne->isSubmitted() && $form_personne->isValid())
         {
+            $file = $form_personne->get('img')->getData();
+
+            if($file != null) {
+                $uploads_directory = $this->getParameter('uploads_directory');
+                $filename = md5(uniqid()) . '.'. $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                $user->setImg($filename);
+            }
+
+            $user->setTutelle($tutelles[$tutelle_value]);
+            $user->setCivilite($civilites[$civilite_value]);
+            $user->setBuilding($buildings[$building_value]);
+            $user->setOffice($offices[$office_value]);
+            $user->setNationality($countries[$country_value]);
             $om->persist($user);
             $om->flush();
 
             return $this->redirectToRoute('annuaire');
         }
-
-        return $this->render('front/form_user.html.twig', ['form_personne' => $form_personne->createView(), 'id' => $id]);
+        return $this->render('front/form_user.html.twig', ['form_personne' =>
+            $form_personne->createView(),
+            'id' => $id,
+            'tutelle' => $tutelles,
+            'civilite' => $civilites,
+            'nationality' => $countries
+        ]);
     }
 }
