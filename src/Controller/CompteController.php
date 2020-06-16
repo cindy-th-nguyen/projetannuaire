@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Personne;
 use App\Entity\Contrat;
 use App\Entity\Activite;
+use App\Entity\Groupinfo;
 
 /**
  * @isGranted("ROLE_USER")
@@ -36,10 +37,12 @@ class CompteController extends AbstractController
      */
     public function seeCompte($id_compte, $id)
     {
-        $compte = $this->getDoctrine()->getRepository('App:Compte')->find($id_compte);
+        $em = $this->getDoctrine()->getEntityManager();
+        $compte = $em->getRepository('App:Compte')->find($id_compte);
         $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
         $role = $this->getDoctrine()->getRepository('App:Role')->find($compte->getRole());
-        return $this->render('compte/display_compte.html.twig', [ 'user'=>$user, 'compte'=>$compte, 'role'=>$role]);
+        $groupinfo = $em->getRepository(Groupinfo::class)->find($compte->getGroupinfo());
+        return $this->render('compte/display_compte.html.twig', [ 'user'=>$user, 'compte'=>$compte, 'role'=>$role, 'groupinfo'=>$groupinfo ]);
     }
 
     /**
@@ -52,6 +55,7 @@ class CompteController extends AbstractController
      */
     public function formCompte(Request $request, ObjectManager $om, $id, $id_compte, UserPasswordEncoderInterface $encoder)
     {
+        $em = $this->getDoctrine()->getEntityManager();
         if($id_compte == -1)   // Ajout
         {
             $compte = new Compte();
@@ -62,18 +66,20 @@ class CompteController extends AbstractController
             
             
         }
-
-        $user = $this->getDoctrine()->getRepository('App:Personne')->find($id);
-
+        $user = $em->getRepository('App:Personne')->find($id);
+        $group_infos = $em->getRepository(Groupinfo::class)->findAll();
+        $select_groupinfo = [];
+        
+        foreach($group_infos as $group_info){
+            $select_groupinfo[$group_info->getLabel()] = $group_info->getId();
+        }
+        
         // Création du formulaire
         $form_compte = $this->createFormBuilder($compte)
             ->add('login')
             ->add('password')
-            ->add('home_directory', ChoiceType::class, [
-                'choices'  => [
-                    'Permanent' => 'Permanent',
-                    'Non permanent' => 'Permanent'
-                ],
+            ->add('groupinfo', ChoiceType::class, [
+                'choices' => $select_groupinfo,
             ])
             ->add('role')
             ->add('startdate', DateType::class, [
@@ -85,12 +91,14 @@ class CompteController extends AbstractController
             ->getForm();
 
         $form_compte->handleRequest($request);
+        $group_info_value = $form_compte['groupinfo']->getData();
 
         if($form_compte->isSubmitted() && $form_compte->isValid())
         {
             // dump($user);
             // die(0);
-             $pass = $user->getCompte()->getPassword();
+            $compte->setGroupInfo($group_infos[$group_info_value - 1]);
+            $pass = $user->getCompte()->getPassword();
             $encoded = $encoder->encodePassword($user->getCompte(), $pass);
             $user->getCompte()->setPassword($encoded);
             $user->getCompte()->setLogin($request->request->get("form")["login"]);
@@ -103,7 +111,7 @@ class CompteController extends AbstractController
         return $this->render('compte/form_compte.html.twig', ['form_compte' => $form_compte->createView(), 'user' => $user]);
     }
 
-        /**
+    /**
      * @Route("/active_compte/{id_compte}/{id}", name="active_compte")
      * @param Request $request
      * @param ObjectManager $om
